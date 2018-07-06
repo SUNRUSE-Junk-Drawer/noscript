@@ -5,7 +5,8 @@
       "label": "GCC Win32",
       "type": "shell",
       "command": "i686-w64-mingw32-gcc src/main.c -o dist/win32/engine.exe",
-      "group": "build"
+      "group": "build",
+      "problemMatcher": []
     },
     {
       "label": "GCC Linux",
