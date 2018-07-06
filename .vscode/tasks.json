@@ -6,6 +6,13 @@
       "type": "shell",
       "command": "i686-w64-mingw32-gcc src/main.c -o dist/win32/engine.exe",
       "group": "build"
+    },
+    {
+      "label": "GCC Linux",
+      "type": "shell",
+      "command": "gcc src/main.c `pkg-config --cflags --libs gtk+-2.0` -o dist/linux/engine",
+      "group": "build",
+      "problemMatcher": []
     }
   ]
 }
