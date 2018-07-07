@@ -12,7 +12,7 @@ const run = () => {
   running = true
   needsToRestart = false
 
-  console.log(`Creating "${path.join(`dist`, `wasm`)}" to generate icons...`)
+  console.log(`Creating "${path.join(`dist`, `wasm`)}" to generate favicons...`)
   mkdirp(path.join(`dist`, `wasm`), error => {
     if (error) {
       throw error
@@ -120,7 +120,7 @@ const run = () => {
 
 export const generate = () => {
   if (running) {
-    console.log(`Delaying icon generation until current run completes`)
+    console.log(`Delaying favicon generation until current run completes`)
     needsToRestart = true
     return
   }

@@ -1,3 +1,5 @@
-import * as icons from "./icons"
+import * as favicons from "./favicons"
+import * as macosIcons from "./macosIcons"
 
-icons.generate()
+favicons.generate()
+macosIcons.generate()
