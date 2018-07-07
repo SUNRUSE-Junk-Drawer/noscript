@@ -1,5 +1,6 @@
 import * as path from "path"
 import * as fs from "fs"
+import * as child_process from "child_process"
 import mkdirp from "mkdirp"
 import favicons from "favicons"
 
@@ -124,7 +125,24 @@ const run = () => {
             return
           }
 
-          console.log(`Done`)
+          console.log(`Generating resource file...`)
+          child_process.execFile(`windres`, [path.join(`src`, `platforms`, `win32.rc`), `-O`, `coff`, `-o`, path.join(`temp/win32/win32.res`)], (error, stdout, stderr) => {
+            if (error) {
+              throw error
+            }
+
+            if (stderr) {
+              throw stderr
+            }
+
+            if (needsToRestart) {
+              console.log(`Exiting early to restart`)
+              run()
+              return
+            }
+
+            console.log(`Done`)
+          })
         })
       })
     })
