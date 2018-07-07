@@ -77,7 +77,7 @@ const run = () => {
 
       console.log(`Generating Win32 icons...`)
       favicons(path.join(`src`, `logo.svg`), {
-        appName: metadataJson.title,
+        appName: metadataJson.applicationName,
         appDescription: metadataJson.description,
         developerName: null,
         developerUrl: null,

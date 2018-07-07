@@ -40,7 +40,7 @@ const run = () => {
 
       console.log(`Generating favicons...`)
       favicons(path.join(`src`, `logo.svg`), {
-        appName: metadataJson.title,
+        appName: metadataJson.applicationName,
         appDescription: metadataJson.description,
         developerName: null,
         developerUrl: null,

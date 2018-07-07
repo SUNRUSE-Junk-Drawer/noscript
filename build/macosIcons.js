@@ -79,8 +79,8 @@ const run = () => {
 
     const metadataJson = JSON.parse(metadataText)
 
-    console.log(`Creating "${path.join(`dist`, `macos`, `${metadataJson.title}.app`, `Contents`, `Resources`)}" to generate macOS icons...`)
-    mkdirp(path.join(`dist`, `macos`, `${metadataJson.title}.app`, `Contents`, `Resources`), error => {
+    console.log(`Creating "${path.join(`dist`, `macos`, `${metadataJson.applicationName}.app`, `Contents`, `Resources`)}" to generate macOS icons...`)
+    mkdirp(path.join(`dist`, `macos`, `${metadataJson.applicationName}.app`, `Contents`, `Resources`), error => {
       if (error) {
         throw error
       }
@@ -93,7 +93,7 @@ const run = () => {
 
       console.log(`Generating macOS icons...`)
       favicons(path.join(`src`, `logo.svg`), {
-        appName: metadataJson.title,
+        appName: metadataJson.applicationName,
         appDescription: metadataJson.description,
         developerName: null,
         developerUrl: null,
@@ -202,7 +202,7 @@ const run = () => {
               totalBytes & 0x000000ff
             ])
 
-            fs.writeFile(path.join(`dist`, `macos`, `${metadataJson.title}.app`, `Contents`, `Resources`, `Logo.icns`), Buffer.concat(fragments.map(Buffer.from)), error => {
+            fs.writeFile(path.join(`dist`, `macos`, `${metadataJson.applicationName}.app`, `Contents`, `Resources`, `Logo.icns`), Buffer.concat(fragments.map(Buffer.from)), error => {
               if (error) {
                 throw error
               }
