@@ -141,6 +141,7 @@ const run = () => {
               return
             }
 
+            running = false
             console.log(`Done`)
           })
         })
