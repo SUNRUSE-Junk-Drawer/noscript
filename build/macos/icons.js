@@ -2,7 +2,7 @@ import * as path from "path"
 import * as fs from "fs"
 import mkdirp from "mkdirp"
 import favicons from "favicons"
-import imageminPngcrush from "imagemin-pngcrush"
+import pngCompression from "../pngCompression"
 
 import faviconsIcons from "favicons/dist/config/icons.json"
 
@@ -133,7 +133,7 @@ const run = () => {
         let remaining = response.images.length
 
         response.images.forEach(image => {
-          imageminPngcrush({ reduce: true })(image.contents).then(compressed => {
+          pngCompression(image.contents).then(compressed => {
             image.contents = compressed
 
             remaining--

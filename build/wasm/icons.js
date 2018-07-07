@@ -3,7 +3,7 @@ import * as fs from "fs"
 import mkdirp from "mkdirp"
 import favicons from "favicons"
 import imagemin from "imagemin"
-import imageminPngcrush from "imagemin-pngcrush"
+import pngCompression from "../pngCompression"
 
 let running = false
 let needsToRestart = false
@@ -96,7 +96,7 @@ const run = () => {
             if (remainingFiles) return
 
             console.log(`Compressing...`)
-            imagemin(allPaths.filter(path => path.endsWith(`.png`)), path.join(`dist`, `wasm`), { plugins: [imageminPngcrush({ reduce: true })] })
+            imagemin(allPaths.filter(path => path.endsWith(`.png`)), path.join(`dist`, `wasm`), { plugins: [pngCompression] })
               .catch(reason => { throw reason })
               .then(() => {
                 if (needsToRestart) {
