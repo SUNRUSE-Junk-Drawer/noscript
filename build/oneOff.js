@@ -1,7 +1,7 @@
-import * as favicons from "./favicons"
-import * as macosIcons from "./macosIcons"
-import * as win32Icons from "./win32Icons"
+import * as wasmIcons from "./wasm/icons"
+import * as macosIcons from "./macos/icons"
+import * as win32Icons from "./win32/icons"
 
-favicons.generate()
+wasmIcons.generate()
 macosIcons.generate()
 win32Icons.generate()
