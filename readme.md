@@ -1,5 +1,7 @@
 ## Build Dependencies
 
+Node.JS is required by every platform.
+
 ### Win32
 
 - MinGW-w64 (i686-w64-mingw32-gcc accessible via PATH)
