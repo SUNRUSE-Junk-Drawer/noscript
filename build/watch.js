@@ -1,12 +1,9 @@
 import * as chokidar from "chokidar"
 import metadata from "./metadata"
 import favicons from "./favicons"
-import deletePreviousBuilds from "./deletePreviousBuilds"
 import "./macos/index"
 import "./wasm/index"
 import "./win32/index"
-
-deletePreviousBuilds.start()
 
 chokidar.watch(`src/metadata.json`)
   .on(`error`, error => { throw error })

@@ -1,9 +1,11 @@
 import rimraf from "rimraf"
 import BuildStage from "./buildStage"
 
+import metadata from "./metadata"
+
 class DeletePreviousBuildsBuildStage extends BuildStage {
   constructor() {
-    super(`deletePreviousBuilds`, [])
+    super(`deletePreviousBuilds`, [metadata])
   }
 
   performStart() {
