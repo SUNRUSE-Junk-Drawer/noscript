@@ -3,7 +3,7 @@ import BuildStage from "./buildStage"
 
 class DeletePreviousBuildsBuildStage extends BuildStage {
   constructor() {
-    super(`metadata`, [])
+    super(`deletePreviousBuilds`, [])
   }
 
   performStart() {
