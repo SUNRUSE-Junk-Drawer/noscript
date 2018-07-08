@@ -1,7 +1,8 @@
-import * as wasmIcons from "./wasm/icons"
-import * as macosIcons from "./macos/icons"
-import * as win32Icons from "./win32/icons"
+import metadata from "./metadata"
+import deletePreviousBuilds from "./deletePreviousBuilds"
+import "./macos/index"
+import "./wasm/index"
+import "./win32/index"
 
-wasmIcons.generate()
-macosIcons.generate()
-win32Icons.generate()
+deletePreviousBuilds.start()
+metadata.start()

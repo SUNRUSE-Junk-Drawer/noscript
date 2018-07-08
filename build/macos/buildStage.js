@@ -1,0 +1,7 @@
+import BuildStage from "./../buildStage"
+
+export default class MacOSBuildStage extends BuildStage {
+  constructor(name, dependencies) {
+    super(`macos/${name}`, dependencies)
+  }
+}
