@@ -24,7 +24,7 @@ class DeletePreviousBuildsBuildStage extends BuildStage {
       this.log(`Deleted "${directory}"`)
 
       remaining--
-      if (!this.remaining) {
+      if (!remaining) {
         this.done()
       }
     }))
