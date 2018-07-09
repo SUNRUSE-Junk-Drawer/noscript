@@ -6,10 +6,9 @@ import "./macos/index"
 import "./wasm/index"
 import "./win32/index"
 
-chokidar.watch(`src/metadata.json`)
+const watch = (paths, buildStages) => chokidar.watch(paths)
   .on(`error`, error => { throw error })
-  .on(`all`, () => metadata.start())
+  .on(`all`, () => buildStages.forEach(buildStage => buildStage.start()))
 
-chokidar.watch(`src/logo.svg`)
-  .on(`error`, error => { throw error })
-  .on(`all`, () => favicons.start())
+watch(`src/metadata.json`, [metadata])
+watch(`src/logo.svg`, [favicons])
