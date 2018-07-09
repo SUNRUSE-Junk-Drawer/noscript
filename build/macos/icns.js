@@ -9,7 +9,7 @@ import deletePreviousBuilds from "./../deletePreviousBuilds"
 
 class IcnsBuildStage extends BuildStage {
   constructor() {
-    super(`icns`, [metadata, favicons, deletePreviousBuilds])
+    super(`icns`, [favicons, deletePreviousBuilds])
   }
 
   performStart() {
