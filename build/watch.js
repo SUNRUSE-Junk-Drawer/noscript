@@ -1,4 +1,5 @@
 import * as chokidar from "chokidar"
+import { start } from "./buildStage"
 import metadata from "./metadata"
 import "./buildStageGraph"
 import favicons from "./favicons"
@@ -6,7 +7,7 @@ import "./macos/index"
 import "./wasm/index"
 import "./win32/index"
 
-const watch = (paths, buildStages) => chokidar.watch(paths)
+const watch = (paths, buildStages) => chokidar.watch(paths, { ignoreInitial: true })
   .on(`error`, error => { throw error })
   .on(`all`, (event, path) => {
     console.log(`Starting build stages affected by ${event} of "${path}"...`)
@@ -15,3 +16,5 @@ const watch = (paths, buildStages) => chokidar.watch(paths)
 
 watch(`src/metadata.json`, [metadata])
 watch(`src/logo.svg`, [favicons])
+
+start()

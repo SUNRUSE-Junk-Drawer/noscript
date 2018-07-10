@@ -1,8 +1,7 @@
-import metadata from "./metadata"
+import { start } from "./buildStage"
 import "./buildStageGraph"
 import "./macos/index"
 import "./wasm/index"
 import "./win32/index"
 
-console.log(`Starting "one-off" build...`)
-metadata.start()
+start()
