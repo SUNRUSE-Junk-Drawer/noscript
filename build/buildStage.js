@@ -1,3 +1,5 @@
+export const all = []
+
 export default class BuildStage {
   constructor(name, dependencies) {
     this.name = name
@@ -8,6 +10,7 @@ export default class BuildStage {
     this.needsToStartAgain = false
     this.hasCompletedAtLeastOnce = false
 
+    all.push(this)
     for (const dependency of this.dependencies) {
       dependency.listen(this)
     }
