@@ -85,11 +85,7 @@ export default class BuildStage {
       case `restarting`:
         return `"${this.name}" is restarting.`
       case `completed`:
-        return this.dependencies
-          .map(dependency => dependency.reasonForDependentNotToStart())
-          .filter(reason => reason)
-          .map(reason => `"${this.name}" -> ${reason}`)
-        [0]
+        return null
     }
   }
 
