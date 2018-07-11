@@ -1,1 +1,1 @@
-import "./resource"
+import "./compile"
