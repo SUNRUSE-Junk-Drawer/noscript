@@ -98,7 +98,7 @@ faviconsIcons.win32 = {
 
 class FaviconsBuildStage extends BuildStage {
   constructor() {
-    super(`favicons`, [metadata])
+    super(`favicons`, [metadata], false)
   }
 
   performStart() {

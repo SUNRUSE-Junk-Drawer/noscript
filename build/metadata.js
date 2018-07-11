@@ -4,7 +4,7 @@ import BuildStage from "./buildStage"
 
 class MetadataBuildStage extends BuildStage {
   constructor() {
-    super(`metadata`, [])
+    super(`metadata`, [], false)
   }
 
   performStart() {

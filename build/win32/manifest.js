@@ -9,7 +9,7 @@ import deletePreviousBuilds from "./../deletePreviousBuilds"
 
 class ManifestBuildStage extends BuildStage {
   constructor() {
-    super(`manifest`, [deletePreviousBuilds])
+    super(`manifest`, [deletePreviousBuilds], false)
   }
 
   performStart() {

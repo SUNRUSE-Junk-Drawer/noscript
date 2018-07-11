@@ -15,7 +15,7 @@ class BuildStageGraphStage extends BuildStage {
     const distPath = path.join(`dist`, `graphs`)
 
     const nodes = buildStage.all
-      .map(buildStage => `[${buildStage.name}]`)
+      .map(buildStage => `[${buildStage.state == `disabled` ? `<reference>` : ``}${buildStage.name}]`)
       .join(`\n`)
 
     const links = buildStage.all

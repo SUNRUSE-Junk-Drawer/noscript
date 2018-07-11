@@ -7,16 +7,24 @@ export const start = () => {
 }
 
 export default class BuildStage {
-  constructor(name, dependencies) {
+  constructor(name, dependencies, disabled) {
     this.name = name
     this.dependencies = dependencies
 
     this.dependents = []
-    this.state = `waitingToStart`
+    this.state = disabled ? `disabled` : `waitingToStart`
+
+    if (disabled) {
+      this.log(`Disabled.`)
+    }
 
     all.push(this)
     for (const dependency of this.dependencies) {
       dependency.listen(this)
+      if (dependency.state == `disabled` && this.state != `disabled`) {
+        this.log(`Disabled by dependency "${dependency.name}".`)
+        this.state = `disabled`
+      }
     }
   }
 
@@ -53,6 +61,9 @@ export default class BuildStage {
         this.dependents.forEach(dependent => dependent.invalidate(1))
         start()
         break
+      case `disabled`:
+        this.log(`Start requested; disabled (nothing to do).`)
+        break
     }
   }
 
@@ -73,6 +84,9 @@ export default class BuildStage {
         this.state = `waitingToStart`
         this.dependents.forEach(dependent => dependent.invalidate(levels + 1))
         break
+      case `disabled`:
+        this.log(`${`\t`.repeat(levels)}Disabled; nothing to invalidate.`)
+        break
     }
   }
 
@@ -86,6 +100,8 @@ export default class BuildStage {
         return `"${this.name}" is restarting.`
       case `completed`:
         return null
+      case `disabled`:
+        return `"${this.name} is disabled.`
     }
   }
 
@@ -102,6 +118,8 @@ export default class BuildStage {
           .filter(reason => reason)
           .map(reason => `"${this.name}" -> ${reason}`)
         [0]
+      case `disabled`:
+        return null
     }
   }
 
@@ -153,6 +171,9 @@ export default class BuildStage {
         break
       case `completed`:
         this.log(`Completed (nothing to do).`)
+        break
+      case `disabled`:
+        this.log(`Disabled (nothing to do).`)
         break
     }
   }
