@@ -8,7 +8,7 @@ import deletePreviousBuilds from "./../deletePreviousBuilds"
 
 class IconBuildStage extends BuildStage {
   constructor() {
-    super(`favicons`, [favicons, deletePreviousBuilds], false)
+    super(`icon`, [favicons, deletePreviousBuilds], false)
   }
 
   performStart() {
