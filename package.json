@@ -11,6 +11,7 @@
     "command-exists": "^1.2.7",
     "exec-buffer": "^3.2.0",
     "favicons": "^5.1.1",
+    "html-minifier": "^3.5.18",
     "is-png": "^1.1.0",
     "mkdirp": "^0.5.1",
     "pngcrush-bin": "^3.1.1",
