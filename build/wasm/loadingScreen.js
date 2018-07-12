@@ -1,7 +1,10 @@
 import * as fs from "fs"
 import * as path from "path"
+import mkdirp from "mkdirp"
 import Svgo from "svgo"
 import BuildStage from "./buildStage"
+
+import deletePreviousBuilds from "./../deletePreviousBuilds"
 
 const svgo = new Svgo({
   plugins: [{
@@ -15,7 +18,7 @@ const svgo = new Svgo({
 
 class LoadingScreenBuildStage extends BuildStage {
   constructor() {
-    super(`loadingScreen`, [], false)
+    super(`loadingScreen`, [deletePreviousBuilds], false)
   }
 
   performStart() {
@@ -27,8 +30,17 @@ class LoadingScreenBuildStage extends BuildStage {
       svgo
         .optimize(unoptimised)
         .then(optimised => {
-          this.svg = optimised
-          this.done()
+          const distPath = path.join(`dist`, `wasm`)
+          this.log(`Creating dist path "${distPath}"...`)
+          mkdirp(distPath, error => {
+            this.handle(error)
+            const outputPath = path.join(distPath, `loading-screen.svg`)
+            console.log(`Writing "${outputPath}"...`)
+            fs.writeFile(outputPath, optimised.data, error => {
+              this.handle(error)
+              this.done()
+            })
+          })
         })
     })
   }
