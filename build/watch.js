@@ -5,6 +5,7 @@ import "./buildStageGraph"
 import favicons from "./favicons"
 import "./macos/index"
 import "./wasm/index"
+import wasmLoadingScreen from "./wasm/loadingScreen"
 import "./win32/index"
 
 const watch = (paths, buildStages) => chokidar.watch(paths, { ignoreInitial: true })
@@ -16,5 +17,6 @@ const watch = (paths, buildStages) => chokidar.watch(paths, { ignoreInitial: tru
 
 watch(`src/metadata.json`, [metadata])
 watch(`src/logo.svg`, [favicons])
+watch(`build/wasm/loadingScreen.svg`, [wasmLoadingScreen])
 
 start()
