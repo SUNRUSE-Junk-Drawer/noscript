@@ -26,6 +26,7 @@ class HtmlBuildStage extends BuildStage {
         </head>
         <body style="background: black">
           <img src="loading-screen.svg" style="position: fixed; left: 0; top: 0; width: 100%; height: 100%">
+          <script src="bootloader.js"></script>
         </body>
       </html>
     `
