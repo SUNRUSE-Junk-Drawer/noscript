@@ -61,7 +61,8 @@ export default class BuildStage {
         start()
         break
       case `running`:
-        this.log(`Start requested; running (nothing to do).`)
+        this.log(`Start requested; waiting for opportunity to restart...`)
+        this.state = `restarting`
         break
       case `restarting`:
         this.log(`Start requested; restarting (nothing to do).`)
