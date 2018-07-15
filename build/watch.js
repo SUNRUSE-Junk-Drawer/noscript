@@ -1,5 +1,5 @@
 import * as chokidar from "chokidar"
-import { start } from "./buildStage"
+import { start, settings } from "./buildStage"
 import metadata from "./metadata"
 import "./buildStageGraph"
 import favicons from "./favicons"
@@ -8,6 +8,8 @@ import "./wasm/index"
 import wasmLoadingScreen from "./wasm/loadingScreen"
 import wasmBootloader from "./wasm/bootloader"
 import "./win32/index"
+
+settings.oneOff = false
 
 const watch = (paths, buildStages) => chokidar.watch(paths, { ignoreInitial: true })
   .on(`error`, error => { throw error })

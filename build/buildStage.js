@@ -1,5 +1,9 @@
 export const all = []
 
+export const settings = {
+  oneOff: null
+}
+
 export const start = () => {
   console.log(`Performing state check...`)
   all.forEach(buildStage => buildStage.checkState())
@@ -31,8 +35,12 @@ export default class BuildStage {
   handle(potentialError, onSuccess) {
     if (potentialError) {
       this.log(`Failed; "${potentialError}"`)
-      this.state = `failed`
-      start()
+      if (settings.oneOff) {
+        process.exit(1)
+      } else {
+        this.state = `failed`
+        start()
+      }
     } else {
       onSuccess()
     }
