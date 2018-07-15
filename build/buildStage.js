@@ -28,10 +28,13 @@ export default class BuildStage {
     }
   }
 
-  handle(potentialError) {
+  handle(potentialError, onSuccess) {
     if (potentialError) {
-      this.log(potentialError)
-      throw potentialError
+      this.log(`Failed; "${potentialError}"`)
+      this.state = `failed`
+      start()
+    } else {
+      onSuccess()
     }
   }
 
@@ -64,6 +67,12 @@ export default class BuildStage {
       case `disabled`:
         this.log(`Start requested; disabled (nothing to do).`)
         break
+      case `failed`:
+        this.log(`Start requested; restarting following previous failure...`)
+        this.state = `waitingToStart`
+        this.dependents.forEach(dependent => dependent.invalidate(1))
+        start()
+        break
     }
   }
 
@@ -87,6 +96,9 @@ export default class BuildStage {
       case `disabled`:
         this.log(`${`\t`.repeat(levels)}Disabled; nothing to invalidate.`)
         break
+      case `failed`:
+        this.log(`${`\t`.repeat(levels)}Previously failed; nothing to invalidate.`)
+        break
     }
   }
 
@@ -102,6 +114,8 @@ export default class BuildStage {
         return null
       case `disabled`:
         return `"${this.name} is disabled.`
+      case `failed`:
+        return `"${this.name}" failed.`
     }
   }
 
@@ -113,6 +127,7 @@ export default class BuildStage {
         return `"${this.name}" is restarting.`
       case `waitingToStart`:
       case `completed`:
+      case `failed`:
         return this.dependents
           .map(dependent => dependent.reasonForDependencyNotToStart())
           .filter(reason => reason)
@@ -174,6 +189,9 @@ export default class BuildStage {
         break
       case `disabled`:
         this.log(`Disabled (nothing to do).`)
+        break
+      case `failed`:
+        this.log(`Previously failed (nothing to do).`)
         break
     }
   }

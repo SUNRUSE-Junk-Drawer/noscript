@@ -132,8 +132,7 @@ class FaviconsBuildStage extends BuildStage {
         win32: true,
         macos: true
       }
-    }, (error, response) => {
-      this.handle(error)
+    }, (error, response) => this.handle(error, () => {
 
       const pngImages = response.images.filter(image => isPng(image.contents))
       this.log(`Compressing ${pngImages.length} PNG icons...`)
@@ -154,7 +153,7 @@ class FaviconsBuildStage extends BuildStage {
         bin: pngcrushBin,
         args: [`-brute`, `-force`, `-q`, `-reduce`, execBuffer.input, execBuffer.output]
       })
-        .catch(error => this.handle(error))
+        .catch(error => this.handle(error, () => { }))
         .then(compressed => {
           image.contents = compressed
 
@@ -168,7 +167,7 @@ class FaviconsBuildStage extends BuildStage {
 
           whenAllCompressed()
         }))
-    })
+    }))
   }
 }
 

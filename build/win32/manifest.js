@@ -17,9 +17,7 @@ class ManifestBuildStage extends BuildStage {
     const tempPath = path.join(`temp`, `win32`)
 
     this.log(`Creating temp path "${tempPath}"...`)
-    mkdirp(tempPath, error => {
-      this.handle(error)
-
+    mkdirp(tempPath, error => this.handle(error, () => {
       const manifestPath = path.join(tempPath, `win32.manifest`)
       this.log(`Writing to "${manifestPath}"...`)
       fs.writeFile(manifestPath, `
@@ -44,11 +42,8 @@ class ManifestBuildStage extends BuildStage {
                   />
               </dependentAssembly>
           </dependency>
-        </assembly>`, error => {
-          this.handle(error)
-          this.done()
-        })
-    })
+        </assembly>`, error => this.handle(error, () => this.done()))
+    }))
   }
 }
 

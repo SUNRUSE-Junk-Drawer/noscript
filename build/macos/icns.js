@@ -72,16 +72,11 @@ class IcnsBuildStage extends BuildStage {
     const resourcesPath = path.join(`dist`, `macos`, `${metadata.json.applicationName}.app`, `Contents`, `Resources`)
 
     this.log(`Creating resources path "${resourcesPath}"...`)
-    mkdirp(resourcesPath, error => {
-      this.handle(error)
-
+    mkdirp(resourcesPath, error => this.handle(error, () => {
       const icnsPath = path.join(resourcesPath, `Logo.icns`)
       this.log(`Writing to "${icnsPath}"...`)
-      fs.writeFile(icnsPath, buffer, error => {
-        this.handle(error)
-        this.done()
-      })
-    })
+      fs.writeFile(icnsPath, buffer, error => this.handle(error, () => this.done()))
+    }))
   }
 }
 

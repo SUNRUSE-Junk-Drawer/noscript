@@ -12,12 +12,7 @@ class ResourceBuildStage extends BuildStage {
   }
 
   performStart() {
-    childProcess.execFile(`windres`, [path.join(`src`, `platforms`, `win32.rc`), `-O`, `coff`, `-o`, path.join(`temp`, `win32`, `win32.res`)], (error, stdout, stderr) => {
-      this.handle(error)
-      this.handle(stdout)
-      this.handle(stderr)
-      this.done()
-    })
+    childProcess.execFile(`windres`, [path.join(`src`, `platforms`, `win32.rc`), `-O`, `coff`, `-o`, path.join(`temp`, `win32`, `win32.res`)], (error, stdout, stderr) => this.handle(error || stdout || stderr, () => this.done()))
   }
 }
 

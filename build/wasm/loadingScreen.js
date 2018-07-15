@@ -24,25 +24,20 @@ class LoadingScreenBuildStage extends BuildStage {
   performStart() {
     const svgPath = path.join(`build`, `wasm`, `loadingScreen.svg`)
     this.log(`Loading "${svgPath}"...`)
-    fs.readFile(svgPath, { encoding: `utf8` }, (error, unoptimised) => {
-      this.handle(error)
+    fs.readFile(svgPath, { encoding: `utf8` }, (error, unoptimised) => this.handle(error, () => {
       this.log(`Optimising...`)
       svgo
         .optimize(unoptimised)
         .then(optimised => {
           const distPath = path.join(`dist`, `wasm`)
           this.log(`Creating dist path "${distPath}"...`)
-          mkdirp(distPath, error => {
-            this.handle(error)
+          mkdirp(distPath, error => this.handle(error, () => {
             const outputPath = path.join(distPath, `loading-screen.svg`)
             console.log(`Writing "${outputPath}"...`)
-            fs.writeFile(outputPath, optimised.data, error => {
-              this.handle(error)
-              this.done()
-            })
-          })
+            fs.writeFile(outputPath, optimised.data, error => this.handle(error, () => this.done()))
+          }))
         })
-    })
+    }))
   }
 }
 

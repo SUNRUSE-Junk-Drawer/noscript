@@ -20,9 +20,7 @@ class FaviconsBuildStage extends BuildStage {
     const distPath = path.join(`dist`, `wasm`)
 
     this.log(`Creating dist path "${distPath}"...`)
-    mkdirp(distPath, error => {
-      this.handle(error)
-
+    mkdirp(distPath, error => this.handle(error, () => {
       this.log(`Writing ${files.length} files...`)
       let remainingToWrite = files.length
 
@@ -30,9 +28,7 @@ class FaviconsBuildStage extends BuildStage {
         this.done()
       }
 
-      files.forEach(file => fs.writeFile(path.join(distPath, file.name), file.contents, error => {
-        this.handle(error)
-
+      files.forEach(file => fs.writeFile(path.join(distPath, file.name), file.contents, error => this.handle(error, () => {
         remainingToWrite--
         if (remainingToWrite) {
           if (remainingToWrite % 10 == 0) {
@@ -42,8 +38,8 @@ class FaviconsBuildStage extends BuildStage {
         }
 
         this.done()
-      }))
-    })
+      })))
+    }))
   }
 }
 

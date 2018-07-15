@@ -27,16 +27,11 @@ class BuildStageGraphStage extends BuildStage {
     const graph = `${nodes}\n${links}`
 
     this.log(`Creating dist path "${distPath}"...`)
-    mkdirp(distPath, error => {
-      this.handle(error)
-
+    mkdirp(distPath, error => this.handle(error, () => {
       const graphPath = path.join(distPath, `buildStages.nomnoml`)
       this.log(`Writing to "${graphPath}"...`)
-      fs.writeFile(graphPath, graph, error => {
-        this.handle(error)
-        this.done()
-      })
-    })
+      fs.writeFile(graphPath, graph, error => this.handle(error, () => this.done()))
+    }))
   }
 }
 

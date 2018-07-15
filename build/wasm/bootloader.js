@@ -14,9 +14,7 @@ class BootloaderBuildStage extends BuildStage {
   performStart() {
     const inputPath = path.join(`build`, `wasm`, `bootloaderScript.js`)
     this.log(`Reading "${inputPath}"...`)
-    fs.readFile(inputPath, { encoding: `utf8` }, (error, rawScript) => {
-      this.handle(error)
-
+    fs.readFile(inputPath, { encoding: `utf8` }, (error, rawScript) => this.handle(error, () => {
       this.log(`Uglifying...`)
       const uglified = uglifyJs.minify(rawScript, {
         ie8: true,
@@ -25,21 +23,16 @@ class BootloaderBuildStage extends BuildStage {
         },
         toplevel: true
       })
-      this.handle(uglified.error)
-
-      const distPath = path.join(`dist`, `wasm`)
-      this.log(`Creating dist path "${distPath}"...`)
-      mkdirp(distPath, error => {
-        this.handle(error)
-
-        const outputPath = path.join(distPath, `bootloader.js`)
-        this.log(`Writing "${outputPath}"...`)
-        fs.writeFile(outputPath, uglified.code, error => {
-          this.handle(error)
-          this.done()
-        })
+      this.handle(uglified.error, () => {
+        const distPath = path.join(`dist`, `wasm`)
+        this.log(`Creating dist path "${distPath}"...`)
+        mkdirp(distPath, error => this.handle(error, () => {
+          const outputPath = path.join(distPath, `bootloader.js`)
+          this.log(`Writing "${outputPath}"...`)
+          fs.writeFile(outputPath, uglified.code, error => this.handle(error, () => this.done()))
+        }))
       })
-    })
+    }))
   }
 }
 

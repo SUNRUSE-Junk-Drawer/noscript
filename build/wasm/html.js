@@ -48,16 +48,11 @@ class HtmlBuildStage extends BuildStage {
 
     const distPath = path.join(`dist`, `wasm`)
     this.log(`Creating dist path "${distPath}"...`)
-    mkdirp(distPath, error => {
-      this.handle(error)
-
+    mkdirp(distPath, error => this.handle(error, () => {
       const outputPath = path.join(distPath, `index.html`)
       this.log(`Writing "${outputPath}"...`)
-      fs.writeFile(outputPath, minified, error => {
-        this.handle(error)
-        this.done()
-      })
-    })
+      fs.writeFile(outputPath, minified, error => this.handle(error, () => this.done()))
+    }))
   }
 }
 

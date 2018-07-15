@@ -18,16 +18,14 @@ class DeletePreviousBuildsBuildStage extends BuildStage {
       this.done()
     }
 
-    directories.forEach(directory => rimraf(directory, error => {
-      this.handle(error)
-
+    directories.forEach(directory => rimraf(directory, error => this.handle(error, () => {
       this.log(`Deleted "${directory}"`)
 
       remaining--
       if (!remaining) {
         this.done()
       }
-    }))
+    })))
   }
 }
 
