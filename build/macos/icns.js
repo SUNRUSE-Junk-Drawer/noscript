@@ -1,15 +1,14 @@
 import * as fs from "fs"
 import * as path from "path"
-import mkdirp from "mkdirp"
 import BuildStage from "./buildStage"
 
 import metadata from "./../metadata"
 import favicons from "./../favicons"
-import deletePreviousBuilds from "./../deletePreviousBuilds"
+import createBundleResourcesDirectory from "./createBundleResourcesDirectory"
 
 class IcnsBuildStage extends BuildStage {
   constructor() {
-    super(`icns`, [favicons, deletePreviousBuilds], false)
+    super(`icns`, [favicons, createBundleResourcesDirectory], false)
   }
 
   performStart() {
@@ -69,14 +68,9 @@ class IcnsBuildStage extends BuildStage {
 
     const buffer = Buffer.concat(fragments.map(Buffer.from))
 
-    const resourcesPath = path.join(`dist`, `macos`, `${metadata.json.applicationName}.app`, `Contents`, `Resources`)
-
-    this.log(`Creating resources path "${resourcesPath}"...`)
-    mkdirp(resourcesPath, error => this.handle(error, () => {
-      const icnsPath = path.join(resourcesPath, `Logo.icns`)
-      this.log(`Writing to "${icnsPath}"...`)
-      fs.writeFile(icnsPath, buffer, error => this.handle(error, () => this.done()))
-    }))
+    const icnsPath = path.join(`dist`, `macos`, `${metadata.json.applicationName}.app`, `Contents`, `Resources`, `Logo.icns`)
+    this.log(`Writing to "${icnsPath}"...`)
+    fs.writeFile(icnsPath, buffer, error => this.handle(error, () => this.done()))
   }
 }
 
