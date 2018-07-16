@@ -1,16 +1,15 @@
 import * as fs from "fs"
 import * as path from "path"
-import mkdirp from "mkdirp"
 import * as htmlMinifier from "html-minifier"
 import BuildStage from "./buildStage"
 
 import metadata from "./../metadata"
-import deletePreviousBuilds from "./../deletePreviousBuilds"
+import createDirectory from "./createDirectory"
 import favicons from "./../favicons"
 
 class HtmlBuildStage extends BuildStage {
   constructor() {
-    super(`html`, [deletePreviousBuilds, favicons], false)
+    super(`html`, [createDirectory, favicons], false)
   }
 
   performStart() {
@@ -48,13 +47,9 @@ class HtmlBuildStage extends BuildStage {
       removeTagWhitespace: true
     })
 
-    const distPath = path.join(`dist`, `wasm`)
-    this.log(`Creating dist path "${distPath}"...`)
-    mkdirp(distPath, error => this.handle(error, () => {
-      const outputPath = path.join(distPath, `index.html`)
-      this.log(`Writing "${outputPath}"...`)
-      fs.writeFile(outputPath, minified, error => this.handle(error, () => this.done()))
-    }))
+    const outputPath = path.join(`dist`, `wasm`, `index.html`)
+    this.log(`Writing "${outputPath}"...`)
+    fs.writeFile(outputPath, minified, error => this.handle(error, () => this.done()))
   }
 }
 
