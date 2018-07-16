@@ -1,5 +1,5 @@
 import { start, settings } from "./buildStage"
-import "./buildStageGraph"
+import "./graphs/index"
 import "./macos/index"
 import "./wasm/index"
 import "./win32/index"

@@ -1,10 +1,10 @@
 import * as fs from "fs"
 import * as path from "path"
 import mkdirp from "mkdirp"
-import BuildStage from "./buildStage"
-import * as buildStage from "./buildStage"
+import BuildStage from "./../buildStage"
+import * as buildStage from "./../buildStage"
 
-import deletePreviousBuilds from "./deletePreviousBuilds"
+import deletePreviousBuilds from "./../deletePreviousBuilds"
 
 class BuildStageGraphStage extends BuildStage {
   constructor() {

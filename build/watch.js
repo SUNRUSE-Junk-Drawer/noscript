@@ -1,7 +1,7 @@
 import * as chokidar from "chokidar"
 import { start, settings } from "./buildStage"
 import metadata from "./metadata"
-import "./buildStageGraph"
+import "./graphs/index"
 import favicons from "./favicons"
 import "./macos/index"
 import "./wasm/index"
