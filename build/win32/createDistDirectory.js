@@ -1,17 +1,8 @@
-import * as path from "path"
-import mkdirp from "mkdirp"
-import BuildStage from "./../buildStage"
-
+import CreateDirectoryBuildStage from "./../createDirectoryBuildStage"
 import createDistDirectory from "./../createDistDirectory"
 
-class CreateDistDirectoryBuildStage extends BuildStage {
-  constructor() {
-    super(`win32/createDistDirectory`, [createDistDirectory], false)
-  }
-
-  performStart() {
-    mkdirp(path.join(`dist`, `win32`), error => this.handle(error, () => this.done()))
-  }
-}
-
-export default new CreateDistDirectoryBuildStage()
+export default new CreateDirectoryBuildStage(
+  `win32/createDistDirectory`,
+  () => [`dist`, `win32`],
+  [createDistDirectory]
+)
