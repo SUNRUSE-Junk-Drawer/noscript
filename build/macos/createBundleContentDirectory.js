@@ -3,11 +3,11 @@ import mkdirp from "mkdirp"
 import BuildStage from "./../buildStage"
 
 import metadata from "./../metadata"
-import deletePreviousBuilds from "./../deletePreviousBuilds"
+import createDistDirectory from "./../createDistDirectory"
 
 class CreateBundleContentDirectoryBuildStage extends BuildStage {
   constructor() {
-    super(`macos/createBundleContentDirectory`, [metadata, deletePreviousBuilds], false)
+    super(`macos/createBundleContentDirectory`, [metadata, createDistDirectory], false)
   }
 
   performStart() {

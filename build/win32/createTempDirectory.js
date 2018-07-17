@@ -2,11 +2,11 @@ import * as path from "path"
 import mkdirp from "mkdirp"
 import BuildStage from "./../buildStage"
 
-import deletePreviousBuilds from "./../deletePreviousBuilds"
+import createTempDirectory from "./../createTempDirectory"
 
 class CreateTempDirectoryBuildStage extends BuildStage {
   constructor() {
-    super(`win32/createTempDirectory`, [deletePreviousBuilds], false)
+    super(`win32/createTempDirectory`, [createTempDirectory], false)
   }
 
   performStart() {
