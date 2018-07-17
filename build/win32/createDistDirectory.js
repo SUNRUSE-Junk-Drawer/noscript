@@ -6,7 +6,7 @@ import deletePreviousBuilds from "./../deletePreviousBuilds"
 
 class CreateDistDirectoryBuildStage extends BuildStage {
   constructor() {
-    super(`win32/createDistDirectory`, [deletePreviousBuilds])
+    super(`win32/createDistDirectory`, [deletePreviousBuilds], false)
   }
 
   performStart() {

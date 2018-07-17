@@ -6,7 +6,7 @@ import deletePreviousBuilds from "./../deletePreviousBuilds"
 
 class CreateDirectoryBuildStage extends BuildStage {
   constructor() {
-    super(`graphs/createDirectory`, [deletePreviousBuilds])
+    super(`graphs/createDirectory`, [deletePreviousBuilds], false)
   }
 
   performStart() {

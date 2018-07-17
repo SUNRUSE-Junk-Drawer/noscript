@@ -7,7 +7,7 @@ import createBundleContentDirectory from "./createBundleContentDirectory"
 
 class CreateBundleResourcesDirectoryBuildStage extends BuildStage {
   constructor() {
-    super(`macos/createBundleResourcesDirectory`, [createBundleContentDirectory])
+    super(`macos/createBundleResourcesDirectory`, [createBundleContentDirectory], false)
   }
 
   performStart() {

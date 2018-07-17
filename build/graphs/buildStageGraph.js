@@ -7,7 +7,7 @@ import createDirectory from "./createDirectory"
 
 class BuildStageGraphStage extends BuildStage {
   constructor() {
-    super(`buildStageGraph`, [createDirectory])
+    super(`buildStageGraph`, [createDirectory], false)
   }
 
   performStart() {

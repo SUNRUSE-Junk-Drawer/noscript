@@ -6,7 +6,7 @@ import deletePreviousBuilds from "./../deletePreviousBuilds"
 
 class CreateDirectoryBuildStage extends BuildStage {
   constructor() {
-    super(`wasm/createDirectory`, [deletePreviousBuilds])
+    super(`wasm/createDirectory`, [deletePreviousBuilds], false)
   }
 
   performStart() {

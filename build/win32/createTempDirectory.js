@@ -6,7 +6,7 @@ import deletePreviousBuilds from "./../deletePreviousBuilds"
 
 class CreateTempDirectoryBuildStage extends BuildStage {
   constructor() {
-    super(`win32/createTempDirectory`, [deletePreviousBuilds])
+    super(`win32/createTempDirectory`, [deletePreviousBuilds], false)
   }
 
   performStart() {

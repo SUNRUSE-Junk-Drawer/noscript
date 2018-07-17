@@ -7,7 +7,7 @@ import deletePreviousBuilds from "./../deletePreviousBuilds"
 
 class CreateBundleContentDirectoryBuildStage extends BuildStage {
   constructor() {
-    super(`macos/createBundleContentDirectory`, [metadata, deletePreviousBuilds])
+    super(`macos/createBundleContentDirectory`, [metadata, deletePreviousBuilds], false)
   }
 
   performStart() {
