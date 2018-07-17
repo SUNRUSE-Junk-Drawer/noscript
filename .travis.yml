@@ -1,0 +1,18 @@
+matrix:
+  include:
+    - os: linux
+      dist: trusty
+      language: node_js
+      sudo: false
+      node_js:
+        - "node"
+      script:
+        - npm run-script oneOff
+    - os: osx
+      osx_image: xcode9.4
+      language: node_js
+      sudo: false
+      node_js:
+        - "node"
+      script:
+        - npm run-script oneOff
