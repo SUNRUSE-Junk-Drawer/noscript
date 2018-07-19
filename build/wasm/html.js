@@ -1,20 +1,15 @@
-import * as fs from "fs"
-import * as path from "path"
 import * as htmlMinifier from "html-minifier"
-import BuildStage from "./buildStage"
+import WriteFileBuildStage from "./../writeFileBuildStage"
 
 import metadata from "./../metadata"
 import createDirectory from "./createDirectory"
 import favicons from "./../favicons"
 
-class HtmlBuildStage extends BuildStage {
-  constructor() {
-    super(`html`, [createDirectory, favicons], false)
-  }
-
-  performStart() {
-    this.log(`Generating...`)
-    const unminified = `
+export default new WriteFileBuildStage(
+  `wasm/html`,
+  () => [`dist`, `wasm`, `index.html`],
+  () => htmlMinifier.minify(
+    `
       <!DOCTYPE html>
       <html>
         <head>
@@ -30,10 +25,7 @@ class HtmlBuildStage extends BuildStage {
           <script src="bootloader.js"></script>
         </body>
       </html>
-    `
-
-    this.log(`Minifying...`)
-    const minified = htmlMinifier.minify(unminified, {
+    `, {
       collapseInlineTagWhitespace: true,
       collapseWhitespace: true,
       removeAttributeQuotes: true,
@@ -45,12 +37,7 @@ class HtmlBuildStage extends BuildStage {
       removeScriptTypeAttributes: true,
       removeStyleLinkTypeAttributes: true,
       removeTagWhitespace: true
-    })
-
-    const outputPath = path.join(`dist`, `wasm`, `index.html`)
-    this.log(`Writing "${outputPath}"...`)
-    fs.writeFile(outputPath, minified, error => this.handle(error, () => this.done()))
-  }
-}
-
-export default new HtmlBuildStage()
+    }
+  ),
+  [createDirectory, favicons]
+)

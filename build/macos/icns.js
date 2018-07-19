@@ -1,19 +1,13 @@
-import * as fs from "fs"
-import * as path from "path"
-import BuildStage from "./buildStage"
+import WriteFileBuildStage from "./../writeFileBuildStage"
 
 import metadata from "./../metadata"
 import favicons from "./../favicons"
 import createBundleResourcesDirectory from "./createBundleResourcesDirectory"
 
-class IcnsBuildStage extends BuildStage {
-  constructor() {
-    super(`icns`, [favicons, createBundleResourcesDirectory], false)
-  }
-
-  performStart() {
-    this.log(`Generating data...`)
-
+export default new WriteFileBuildStage(
+  `macos/icns`,
+  () => [`dist`, `macos`, `${metadata.json.applicationName}.app`, `Contents`, `Resources`, `Logo.icns`],
+  () => {
     const fragments = []
     let totalBytes = 4
 
@@ -66,12 +60,7 @@ class IcnsBuildStage extends BuildStage {
       totalBytes & 0x000000ff
     ])
 
-    const buffer = Buffer.concat(fragments.map(Buffer.from))
-
-    const icnsPath = path.join(`dist`, `macos`, `${metadata.json.applicationName}.app`, `Contents`, `Resources`, `Logo.icns`)
-    this.log(`Writing to "${icnsPath}"...`)
-    fs.writeFile(icnsPath, buffer, error => this.handle(error, () => this.done()))
-  }
-}
-
-export default new IcnsBuildStage()
+    return Buffer.concat(fragments.map(Buffer.from))
+  },
+  [favicons, createBundleResourcesDirectory]
+)
