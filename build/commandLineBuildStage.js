@@ -1,4 +1,4 @@
-import * as childProcess from "child_process"
+import crossSpawn from "cross-spawn"
 import commandExists from "command-exists"
 import BuildStage from "./buildStage"
 
@@ -10,10 +10,9 @@ export default class CommandLineBuildStage extends BuildStage {
   }
 
   performStart() {
-    childProcess.execFile(
+    crossSpawn(
       this.commandName,
       this.argumentFactory(),
-      (error, stdout, stderr) => this.handle(error, () => this.handle(stdout, () => this.handle(stderr, () => this.done())))
-    )
+    ).on(`close`, exitCode => this.handle(exitCode, () => this.done()))
   }
 }
