@@ -10,9 +10,14 @@ export default class CommandLineBuildStage extends BuildStage {
   }
 
   performStart() {
-    crossSpawn(
+    let stdOut = ``
+    let stdErr = ``
+    const running = crossSpawn(
       this.commandName,
       this.argumentFactory(),
-    ).on(`close`, exitCode => this.handle(exitCode, () => this.done()))
+    )
+    running.stdout.on(`data`, data => stdOut += data)
+    running.stderr.on(`data`, data => stdErr += data)
+    running.on(`close`, exitCode => this.handle(`${exitCode}; ${stdOut}; ${stdErr}`, () => this.done()))
   }
 }
