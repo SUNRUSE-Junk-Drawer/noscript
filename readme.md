@@ -91,7 +91,7 @@ debugging tools to identify content.
 
 The alphanumeric format can be described as base-37, where the 37 characters are
 `_abcdefghijklmnopqrstuvwxyz0123456789`.  When converting from alphanumeric form
-into integer form, strings shorter than 6 characters are to be right-padded with
+into integer form, strings shorter than 6 characters are to be left-padded with
 underscores.
 
 ### Logo
