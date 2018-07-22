@@ -8,6 +8,7 @@ import "./wasm/index"
 import wasmLoadingScreen from "./wasm/loadingScreen"
 import wasmBootloader from "./wasm/bootloader"
 import "./win32/index"
+import "./linux/index"
 
 settings.oneOff = false
 
