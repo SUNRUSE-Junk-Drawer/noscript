@@ -1,7 +1,7 @@
 #include <windows.h>
 
 void se_platform_critical_stop(const char *reason) {
-  MessageBox(NULL, reason, SE_GAME_TITLE, MB_OK);
+  MessageBox(NULL, reason, SE_METADATA_APPLICATION_NAME, MB_OK);
   exit(EXIT_FAILURE);
 }
 

@@ -1,5 +1,4 @@
-#define SE_GAME_NAME "ExampleSpartanEngineGame"
-#define SE_GAME_TITLE "Example Spartan Engine Game"
+#include "../../temp/metadata.h"
 
 void se_game_initialize();
 
