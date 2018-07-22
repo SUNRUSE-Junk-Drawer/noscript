@@ -18,6 +18,6 @@ export default class CommandLineBuildStage extends BuildStage {
     )
     running.stdout.on(`data`, data => stdOut += data)
     running.stderr.on(`data`, data => stdErr += data)
-    running.on(`close`, exitCode => this.handle((exitCode || stdOut || stdErr) && `${exitCode}; ${stdOut}; ${stdErr}`, () => this.done()))
+    running.on(`close`, exitCode => this.handle((exitCode || stdErr) && `${exitCode}; ${stdOut}; ${stdErr}`, () => this.done()))
   }
 }
