@@ -12,9 +12,14 @@ export default class CommandLineBuildStage extends BuildStage {
   performStart() {
     let stdOut = ``
     let stdErr = ``
+    const args = this.argumentFactory()
     const running = crossSpawn(
-      this.commandName,
-      this.argumentFactory(),
+      Array.isArray(args)
+        ? this.commandName
+        : `${this.commandName} ${args}`,
+      Array.isArray(args)
+        ? args
+        : { shell: true },
     )
     running.stdout.on(`data`, data => stdOut += data)
     running.stderr.on(`data`, data => stdErr += data)
