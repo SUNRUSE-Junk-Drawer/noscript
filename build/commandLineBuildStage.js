@@ -3,10 +3,12 @@ import commandExists from "command-exists"
 import BuildStage from "./buildStage"
 
 export default class CommandLineBuildStage extends BuildStage {
-  constructor(name, commandName, argumentFactory, dependencies) {
-    super(name, dependencies, !commandExists.sync(commandName))
-    this.commandName = commandName
+  constructor(name, commandNames, argumentFactory, dependencies) {
+    const commandName = commandNames.find(commandName => commandExists.sync(commandName))
+    super(name, dependencies, !commandName)
+    this.commandNames = commandNames
     this.argumentFactory = argumentFactory
+    this.commandName = commandName
   }
 
   performStart() {
