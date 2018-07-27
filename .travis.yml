@@ -8,6 +8,7 @@ matrix:
             libx11-dev
             libgtk2.0-dev
             libcanberra-gtk-module
+            mingw-w64
       language: node_js
       sudo: false
       node_js:
