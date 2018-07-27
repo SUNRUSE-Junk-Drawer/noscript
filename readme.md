@@ -182,7 +182,7 @@ Visual Studio Code.
 
 #### Windows
 
-- MinGW-w64 (i686-w64-mingw32-gcc accessible via PATH).
+- MinGW-w64 (i686-w64-mingw32-gcc and windres or i686-w64-mingw32-windres accessible via PATH).
 
 #### Linux
 
