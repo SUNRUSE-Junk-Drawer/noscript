@@ -45,6 +45,8 @@ export default class DatabaseSchemaGraphBuildStage extends WriteFileBuildStage {
           return output
         })
 
+        const visitedColumns = []
+
         game.files.forEach(file => {
           const recurseList = (list, path) => {
             list.lists.forEach(childList => recurseList(childList, `${path}.${list.name}`))
@@ -54,7 +56,20 @@ export default class DatabaseSchemaGraphBuildStage extends WriteFileBuildStage {
           const recurseColumn = (column, path) => {
             column.constraints
               .filter(constraint => constraint instanceof ForeignKeyConstraint)
-              .forEach(constraint => output += `[${path}.${column.name}] --> [${findFullPathTo(constraint.toColumn)}]\n`)
+              .forEach(constraint => {
+                if (constraint.toColumn.constraints
+                  .filter(toConstraint => toConstraint instanceof ForeignKeyConstraint)
+                  .some(toConstraint => toConstraint.toColumn == column)
+                ) {
+                  if (visitedColumns.includes(constraint.toColumn)) {
+                    output += `[${path}.${column.name}] <--> [${findFullPathTo(constraint.toColumn)}]\n`
+                  }
+                } else {
+                  output += `[${path}.${column.name}] --> [${findFullPathTo(constraint.toColumn)}]\n`
+                }
+              })
+
+            visitedColumns.push(column)
           }
 
           file.lists.forEach(list => recurseList(list, file.name))
