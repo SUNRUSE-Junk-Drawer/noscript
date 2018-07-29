@@ -1,10 +1,4 @@
-import { start, settings } from "./buildStage"
-import "./graphs/index"
-import "./macos/index"
-import "./wasm/index"
-import "./win32/index"
-import "./linux/index"
+import forEachGame from "./forEachGame"
+import Game from "./game"
 
-settings.oneOff = true
-
-start()
+forEachGame(name => new Game(name, true))

@@ -1,22 +1,20 @@
 import * as fs from "fs"
 import * as path from "path"
-import BuildStage from "./buildStage"
+import BuildStage from "./../buildStage"
 
-import favicons from "./../favicons"
-import createDirectory from "./createDirectory"
-
-class FaviconsBuildStage extends BuildStage {
-  constructor() {
-    super(`favicons`, [favicons, createDirectory], false)
+export default class FaviconsBuildStage extends BuildStage {
+  constructor(game, favicons, createWasmDistDirectory) {
+    super(game, `wasm/favicons`, [favicons, createWasmDistDirectory], false)
+    this.favicons = favicons
   }
 
   performStart() {
-    const files = favicons.response.images
-      .concat(favicons.response.files)
+    const files = this.favicons.response.images
+      .concat(this.favicons.response.files)
       .filter(file => file.name != `win32.ico`)
       .filter(file => !file.name.startsWith(`macos_`))
 
-    const distPath = path.join(`dist`, `wasm`)
+    const distPath = path.join(`games`, this.game.name, `dist`, `wasm`)
 
     this.log(`Writing ${files.length} files...`)
     let remainingToWrite = files.length
@@ -38,5 +36,3 @@ class FaviconsBuildStage extends BuildStage {
     })))
   }
 }
-
-export default new FaviconsBuildStage()

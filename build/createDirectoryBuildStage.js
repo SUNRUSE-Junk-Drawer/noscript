@@ -3,8 +3,8 @@ import mkdirp from "mkdirp"
 import BuildStage from "./buildStage"
 
 export default class CreateDirectoryBuildStage extends BuildStage {
-  constructor(name, pathSegmentFactory, dependencies) {
-    super(name, dependencies, false)
+  constructor(game, name, pathSegmentFactory, dependencies) {
+    super(game, name, dependencies, false)
     this.pathSegmentFactory = pathSegmentFactory
   }
 

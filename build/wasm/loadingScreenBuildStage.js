@@ -1,9 +1,7 @@
 import * as fs from "fs"
 import * as path from "path"
 import Svgo from "svgo"
-import BuildStage from "./buildStage"
-
-import createDirectory from "./createDirectory"
+import BuildStage from "./../buildStage"
 
 const svgo = new Svgo({
   plugins: [{
@@ -15,25 +13,23 @@ const svgo = new Svgo({
   }]
 })
 
-class LoadingScreenBuildStage extends BuildStage {
-  constructor() {
-    super(`loadingScreen`, [createDirectory], false)
+export default class LoadingScreenBuildStage extends BuildStage {
+  constructor(game, createWasmDistDirectory) {
+    super(game, `wasm/loadingScreen`, [createWasmDistDirectory], false)
   }
 
   performStart() {
-    const svgPath = path.join(`build`, `wasm`, `loadingScreen.svg`)
+    const svgPath = path.join(`games`, this.game.name, `loadingScreen.svg`)
     this.log(`Loading "${svgPath}"...`)
     fs.readFile(svgPath, { encoding: `utf8` }, (error, unoptimised) => this.handle(error, () => {
       this.log(`Optimising...`)
       svgo
         .optimize(unoptimised)
         .then(optimised => {
-          const outputPath = path.join(`dist`, `wasm`, `loading-screen.svg`)
+          const outputPath = path.join(`games`, this.game.name, `dist`, `wasm`, `loading-screen.svg`)
           console.log(`Writing "${outputPath}"...`)
           fs.writeFile(outputPath, optimised.data, error => this.handle(error, () => this.done()))
         })
     }))
   }
 }
-
-export default new LoadingScreenBuildStage()

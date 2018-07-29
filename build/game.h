@@ -1,5 +1,3 @@
-#include "../../temp/metadata.h"
-
 void se_game_initialize();
 
 void se_game_process(float deltaSeconds);

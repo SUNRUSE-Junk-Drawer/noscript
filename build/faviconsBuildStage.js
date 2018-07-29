@@ -4,7 +4,6 @@ import isPng from "is-png"
 import pngcrushBin from "pngcrush-bin"
 import execBuffer from "exec-buffer"
 import BuildStage from "./buildStage"
-import metadata from "./metadata"
 
 import faviconsIcons from "favicons/dist/config/icons.json"
 
@@ -96,18 +95,19 @@ faviconsIcons.win32 = {
   }
 }
 
-class FaviconsBuildStage extends BuildStage {
-  constructor() {
-    super(`favicons`, [metadata], false)
+export default class FaviconsBuildStage extends BuildStage {
+  constructor(game, name, metadata, logoPathSegmentFactory) {
+    super(game, name, [metadata], false)
+    this.metadata = metadata
+    this.logoPathSegmentFactory = logoPathSegmentFactory
   }
 
   performStart() {
-    const logoPath = path.join(`src`, `logo.svg`)
-
+    const logoPath = path.join.apply(path, this.logoPathSegmentFactory())
     this.log(`Generating icons from "${logoPath}"...`)
     favicons(logoPath, {
-      appName: metadata.json.applicationName,
-      appDescription: metadata.json.description,
+      appName: this.metadata.json.applicationName,
+      appDescription: this.metadata.json.description,
       developerName: null,
       developerUrl: null,
       background: `#000`,
@@ -170,5 +170,3 @@ class FaviconsBuildStage extends BuildStage {
     }))
   }
 }
-
-export default new FaviconsBuildStage()

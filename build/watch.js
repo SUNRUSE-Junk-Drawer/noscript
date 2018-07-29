@@ -1,27 +1,20 @@
+import * as path from "path"
 import * as chokidar from "chokidar"
-import { start, settings } from "./buildStage"
-import metadata from "./metadata"
-import "./graphs/index"
-import favicons from "./favicons"
-import "./macos/index"
-import "./wasm/index"
-import wasmLoadingScreen from "./wasm/loadingScreen"
-import wasmBootloader from "./wasm/bootloader"
-import "./win32/index"
-import "./linux/index"
+import forEachGame from "./forEachGame"
+import Game from "./game"
 
-settings.oneOff = false
+forEachGame(name => {
+  const game = new Game(name, false)
 
-const watch = (paths, buildStages) => chokidar.watch(paths, { ignoreInitial: true })
-  .on(`error`, error => { throw error })
-  .on(`all`, (event, path) => {
-    console.log(`Starting build stages affected by ${event} of "${path}"...`)
-    buildStages.forEach(buildStage => buildStage.start())
-  })
+  const watch = (paths, buildStageNames) => chokidar.watch(paths, { ignoreInitial: true })
+    .on(`error`, error => { throw error })
+    .on(`all`, (event, path) => {
+      console.log(`Starting build stages affected by ${event} of "${path}"...`)
+      buildStageNames.forEach(buildStageName => game.buildStages.find(buildStage => buildStage.name == buildStageName).start())
+    })
 
-watch(`src/metadata.json`, [metadata])
-watch(`src/logo.svg`, [favicons])
-watch(`build/wasm/loadingScreen.svg`, [wasmLoadingScreen])
-watch(`build/wasm/bootloaderScript.js`, [wasmBootloader])
-
-start()
+  watch(path.join(`games`, name, `metadata.json`), [`metadata`])
+  watch(path.join(`games`, name, `logo.svg`), [`favicons`])
+  watch(path.join(`games`, name, `loadingScreen.svg`), [`wasm/loadingScreen`])
+  watch(`build/wasm/bootloader.js`, [`wasm/bootloader`])
+})

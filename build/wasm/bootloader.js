@@ -1,34 +1,43 @@
-import * as fs from "fs"
-import * as path from "path"
-import * as uglifyJs from "uglify-js"
-import BuildStage from "./buildStage"
+onerror = function () {
+  alert.apply(window, arguments)
+}
 
-import createDirectory from "./createDirectory"
+var svgClassNameVisibility = {
+  javascriptWarning: false,
+  loading: false,
+  downloadFailed: false,
+  webAssemblyUnsupported: false,
+  downloading: false,
+  compilingWebAssembly: false
+}
 
-class BootloaderBuildStage extends BuildStage {
-  constructor() {
-    super(`bootloader`, [createDirectory], false)
+function refreshSvgClassVisibility() {
+  var svg = document.getElementById("loading-screen")
+
+  if (!svg) {
+    return
   }
 
-  performStart() {
-    const inputPath = path.join(`build`, `wasm`, `bootloaderScript.js`)
-    this.log(`Reading "${inputPath}"...`)
-    fs.readFile(inputPath, { encoding: `utf8` }, (error, rawScript) => this.handle(error, () => {
-      this.log(`Uglifying...`)
-      const uglified = uglifyJs.minify(rawScript, {
-        ie8: true,
-        mangle: {
-          toplevel: true
-        },
-        toplevel: true
-      })
-      this.handle(uglified.error, () => {
-        const outputPath = path.join(`dist`, `wasm`, `bootloader.js`)
-        this.log(`Writing "${outputPath}"...`)
-        fs.writeFile(outputPath, uglified.code, error => this.handle(error, () => this.done()))
-      })
-    }))
+  if (!svg.contentDocument) {
+    return
+  }
+
+  for (var className in svgClassNameVisibility) {
+    var elements = svg.contentDocument.getElementsByClassName(className)
+    for (var i = 0; i < elements.length; i++) {
+      elements[i].style.display = svgClassNameVisibility[className] ? "block" : "none"
+    }
   }
 }
 
-export default new BootloaderBuildStage()
+if (typeof WebAssembly === "undefined") {
+  svgClassNameVisibility.webAssemblyUnsupported = true
+} else {
+  svgClassNameVisibility.loading = true
+}
+
+refreshSvgClassVisibility()
+
+onload = function () {
+  refreshSvgClassVisibility()
+}

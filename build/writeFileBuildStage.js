@@ -3,8 +3,8 @@ import * as path from "path"
 import BuildStage from "./buildStage"
 
 export default class WriteFileBuildStage extends BuildStage {
-  constructor(name, pathSegmentFactory, contentFactory, dependencies) {
-    super(name, dependencies, false)
+  constructor(game, name, pathSegmentFactory, contentFactory, dependencies) {
+    super(game, name, dependencies, false)
     this.pathSegmentFactory = pathSegmentFactory
     this.contentFactory = contentFactory
   }

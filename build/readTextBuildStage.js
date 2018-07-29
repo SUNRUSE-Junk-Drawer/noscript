@@ -3,8 +3,8 @@ import * as fs from "fs"
 import BuildStage from "./buildStage"
 
 export default class ReadTextBuildStage extends BuildStage {
-  constructor(name, pathSegmentFactory, dependencies) {
-    super(name, dependencies, false)
+  constructor(game, name, pathSegmentFactory, dependencies) {
+    super(game, name, dependencies, false)
     this.pathSegmentFactory = pathSegmentFactory
   }
 
