@@ -10,7 +10,7 @@ forEachGame(name => {
     .on(`error`, error => { throw error })
     .on(`all`, (event, path) => {
       console.log(`Starting build stages affected by ${event} of "${path}"...`)
-      buildStageNames.forEach(buildStageName => game.buildStages.find(buildStage => buildStage.name == buildStageName).start())
+      buildStageNames.forEach(buildStageName => game.buildStage(buildStageName).start())
     })
 
   watch(path.join(`games`, name, `metadata.json`), [`metadata`])

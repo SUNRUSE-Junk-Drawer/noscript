@@ -77,4 +77,8 @@ export default class Game {
     this.buildStages.forEach(buildStage => buildStage.checkState())
     console.log(`Done.`)
   }
+
+  buildStage(name) {
+    return this.buildStages.find(buildStage => buildStage.name == name)
+  }
 }
