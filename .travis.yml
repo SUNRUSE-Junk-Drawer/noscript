@@ -30,4 +30,5 @@ deploy:
   file_glob: true
   file: dist/*
   on:
-    repo: jameswilddev/spartan-engine
+    tags: true
+    branch: master
