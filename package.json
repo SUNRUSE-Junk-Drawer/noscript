@@ -7,6 +7,7 @@
     "@babel/core": "^7.0.0-beta.52",
     "@babel/node": "^7.0.0-beta.52",
     "@babel/preset-env": "^7.0.0-beta.52",
+    "archiver": "^2.1.1",
     "chokidar": "^2.0.4",
     "command-exists": "^1.2.7",
     "cross-spawn": "^6.0.5",
