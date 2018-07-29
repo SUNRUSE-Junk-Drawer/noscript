@@ -42,7 +42,6 @@ export default class DatabaseSchemaGraphBuildStage extends WriteFileBuildStage {
 
           file.lists.forEach(list => recurseList(list, file.name))
           file.columns.forEach(column => recurseColumn(column, file.name))
-          return output
         })
 
         const visitedColumns = []
@@ -74,7 +73,6 @@ export default class DatabaseSchemaGraphBuildStage extends WriteFileBuildStage {
 
           file.lists.forEach(list => recurseList(list, file.name))
           file.columns.forEach(column => recurseColumn(column, file.name))
-          return output
         })
 
         return output
