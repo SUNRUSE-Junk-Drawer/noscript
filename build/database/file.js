@@ -1,10 +1,9 @@
-export const All = []
-
 export default class File {
-  constructor(name) {
+  constructor(game, name) {
+    this.game = game
     this.name = name
     this.lists = []
     this.columns = []
-    All.push(this)
+    game.files.push(this)
   }
 }

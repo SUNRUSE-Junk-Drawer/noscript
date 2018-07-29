@@ -14,6 +14,7 @@ export default class Game {
     this.name = name
     this.oneOff = oneOff
     this.buildStages = []
+    this.files = []
 
     const metadata = new ReadJsonBuildStage(
       this,
