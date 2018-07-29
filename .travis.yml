@@ -29,6 +29,7 @@ deploy:
     secure: ORZozPFRVlAjdzb/ZTNeQPsi0NkhydcFd5tXlmFnb/5PFHddhJtWMJ8006X2/pMysf4XmrHLBCFBfC9koc3Lj3mpAUeGV7ZGp0bvnWtB16aYRCoLtKn1vnX1bDGoiQYnp0d3Hyak8aPoXHJN+qxzjao+WTsu89K8u+57nwN6vaoc9mofso3YJl2lQHjYx4IbIp5+51d+16WyIr2ymCoPMcNjGtfw41YyULxsAv0NwytEgyLQ1E+UFvmyGsoomEBN8GRnBbCHKQdKkwWpmCvxVFO2x4SmeXLFvGCJUD9Ci/62+40PS/JY9a9VCHvYuOat8eqO/5AfQ2yzUP+YKMCG/ydXQedFz3KFmrXIiTE1/MwRnqCsJFlevl1/vB9mTnxCDTFPpLdnhdxwfg548hN+LYP/U7Y3lwoAv5ZwQWvB3Muj1+HvJM71RniQr+VMiEJkHPD5jr7b+p1h/8vZ3nOcUXYMZNh+/Xb907S2B7Ms8gohjUTygXYv2yRRb8gLRbU3BmPQTZBi/kr9B9o62PTczsFtTdIObcJB9umD6pTEWcG8zyHwSTcVrK2Q0+lVymbHoKVd9KQ71UH3J8a29WRQ42dds8IAHs5aUTDpCHj1V3FPopg4FNZP2hMXe+5WexDYOtTduEGhDY4v1D6grPrQmuq8gGxcgbz0BTudUURSDWo=
   file_glob: true
   file: dist/*
+  skip_cleanup: true
   on:
     tags: true
     branch: master
