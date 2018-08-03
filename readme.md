@@ -11,11 +11,6 @@ It is a (heavily diverged) fork of
 The build pipeline is a Node.JS application which is capable of watching for
 changes and incrementally building the game code and content as changes occur.
 
-## Logo
-
-Each game includes a `logo.svg` file which is processed by the build pipeline
-to produce icons.
-
 ## Metadata
 
 Each game includes a `metadata.json` file which describes metadata about the
