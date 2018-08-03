@@ -11,16 +11,9 @@
     "chokidar": "^2.0.4",
     "command-exists": "^1.2.7",
     "cross-spawn": "^6.0.5",
-    "exec-buffer": "^3.2.0",
-    "favicons": "^5.1.1",
     "html-minifier": "^3.5.18",
-    "is-png": "^1.1.0",
     "mkdirp": "^0.5.1",
-    "pngcrush-bin": "^3.1.1",
     "rimraf": "^2.6.2",
-    "shell-escape": "^0.2.0",
-    "svgo": "^1.0.5",
-    "uglify-js": "^3.4.4",
-    "xml-escape": "^1.1.0"
+    "uglify-js": "^3.4.4"
   }
 }
