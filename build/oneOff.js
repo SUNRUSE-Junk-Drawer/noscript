@@ -29,7 +29,6 @@ rimraf(`dist`, error => {
           game.buildStage(`wasm/html`),
           game.buildStage(`wasm/bootloader`),
           game.buildStage(`wasm/favicons`),
-          game.buildStage(`wasm/loadingScreen`)
         ]
       )
     })

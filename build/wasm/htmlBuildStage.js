@@ -17,9 +17,6 @@ export default class HtmlBuildStage extends WriteFileBuildStage {
             ${favicons.response.html.join(``)}
           </head>
           <body style="background: black">
-            <object id="loading-screen" data="loading-screen.svg" type="image/svg+xml" style="position: fixed; left: 0; top: 0; width: 100%; height: 100%">
-              SVG does not appear to be supported by your browser.  Please ensure that your browser and device are up to date, then refresh to try again.
-            </object>
             <script src="bootloader.js"></script>
           </body>
         </html>
