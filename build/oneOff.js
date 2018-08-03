@@ -22,30 +22,6 @@ rimraf(`dist`, error => {
 
       new ZipDirectoryBuildStage(
         game,
-        `macos/zip`,
-        () => [`games`, game.name, `dist`, `macos`],
-        () => [`dist`, `${game.buildStage(`metadata`).json.applicationName} (MacOS).zip`],
-        [game.buildStage(`macos/icns`)]
-      )
-
-      new ZipDirectoryBuildStage(
-        game,
-        `win32/zip`,
-        () => [`games`, game.name, `dist`, `win32`],
-        () => [`dist`, `${game.buildStage(`metadata`).json.applicationName} (Windows 32-Bit).zip`],
-        [game.buildStage(`win32/compile`)]
-      )
-
-      new ZipDirectoryBuildStage(
-        game,
-        `linux/zip`,
-        () => [`games`, game.name, `dist`, `linux`],
-        () => [`dist`, `${game.buildStage(`metadata`).json.applicationName} (Ubuntu Linux 64-Bit).zip`],
-        [game.buildStage(`linux/compile`)]
-      )
-
-      new ZipDirectoryBuildStage(
-        game,
         `wasm/zip`,
         () => [`games`, game.name, `dist`, `wasm`],
         () => [`dist`, `${game.buildStage(`metadata`).json.applicationName} (Web).zip`],

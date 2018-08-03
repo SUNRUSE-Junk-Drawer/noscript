@@ -5,9 +5,6 @@ import CreateDirectoryBuildStage from "./createDirectoryBuildStage"
 import GenerateMetadataHeaderBuildStage from "./generateMetadataHeaderBuildStage"
 import FaviconsBuildStage from "./faviconsBuildStage"
 import addGraphsBuildStages from "./graphs/addGraphsBuildStages"
-import addMacosBuildStages from "./macos/addMacosBuildStages"
-import addWin32BuildStages from "./win32/addWin32BuildStages"
-import addLinuxBuildStages from "./linux/addLinuxBuildStages"
 import addWasmBuildStages from "./wasm/addWasmBuildStages"
 
 export default class Game {
@@ -68,9 +65,6 @@ export default class Game {
     )
 
     addGraphsBuildStages(this, createDistDirectory)
-    addMacosBuildStages(this, metadata, favicons, createDistDirectory)
-    addWin32BuildStages(this, metadata, favicons, createDistDirectory, createTempDirectory, generateMetadataHeader)
-    addLinuxBuildStages(this, metadata, createDistDirectory, createTempDirectory, generateMetadataHeader)
     addWasmBuildStages(this, metadata, favicons, createDistDirectory)
 
     this.handleBuildStageChanges()

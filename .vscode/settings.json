@@ -12,9 +12,6 @@
   "files.insertFinalNewline": true,
   "files.trimFinalNewlines": true,
   "files.associations": {
-    "stdbool.h": "c",
-    "shlobj.h": "c",
-    "windows.h": "c",
-    "pathcch.h": "c"
+    "stdbool.h": "c"
   }
 }

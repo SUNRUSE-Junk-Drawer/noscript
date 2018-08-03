@@ -11,8 +11,6 @@ export default class FaviconsBuildStage extends BuildStage {
   performStart() {
     const files = this.favicons.response.images
       .concat(this.favicons.response.files)
-      .filter(file => file.name != `win32.ico`)
-      .filter(file => !file.name.startsWith(`macos_`))
 
     const distPath = path.join(`games`, this.game.name, `dist`, `wasm`)
 
