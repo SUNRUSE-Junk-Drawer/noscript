@@ -1,9 +1,9 @@
 {
-  "applicationId": "ExampleSpartanEngineGame",
-  "applicationName": "Example Spartan Engine Game",
-  "productId": "SpartanEngine",
-  "productName": "Spartan Engine",
+  "applicationId": "Js13kGamesTemplate",
+  "applicationName": "Example Js13kGames Template Game",
+  "productId": "Js13kGamesTemplate",
+  "productName": "Js13kGames Template",
   "companyId": "Sunruse",
   "companyName": "SUNRUSE",
-  "description": "Demonstrates an example \"game\" created with Spartan Engine."
+  "description": "Demonstrates an example \"game\" created using Js13kGames Template."
 }
