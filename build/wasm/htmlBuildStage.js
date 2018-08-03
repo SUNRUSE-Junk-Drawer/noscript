@@ -2,7 +2,7 @@ import * as htmlMinifier from "html-minifier"
 import WriteFileBuildStage from "./../writeFileBuildStage"
 
 export default class HtmlBuildStage extends WriteFileBuildStage {
-  constructor(game, metadata, favicons, createWasmDistDirectory) {
+  constructor(game, metadata, createWasmDistDirectory) {
     super(
       game,
       `wasm/html`,
@@ -14,7 +14,6 @@ export default class HtmlBuildStage extends WriteFileBuildStage {
             <meta charset="UTF-8">
             <title>${metadata.json.applicationName}</title>
             <meta name="viewport" content="initial-scale=1, minimum-scale=1, maximum-scale=1, width=device-width, height=device-height, user-scalable=no">
-            ${favicons.response.html.join(``)}
           </head>
           <body style="background: black">
             <script src="bootloader.js"></script>
@@ -34,7 +33,7 @@ export default class HtmlBuildStage extends WriteFileBuildStage {
           removeTagWhitespace: true
         }
       ),
-      [favicons, createWasmDistDirectory]
+      [createWasmDistDirectory]
     )
   }
 }

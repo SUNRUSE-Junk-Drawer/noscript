@@ -14,6 +14,5 @@ forEachGame(name => {
     })
 
   watch(path.join(`games`, name, `metadata.json`), [`metadata`])
-  watch(path.join(`games`, name, `logo.svg`), [`favicons`])
   watch(`build/wasm/bootloader.js`, [`wasm/bootloader`])
 })

@@ -1,9 +1,8 @@
 import CreateDirectoryBuildStage from "./../createDirectoryBuildStage"
 import HtmlBuildStage from "./htmlBuildStage"
 import BootloaderBuildStage from "./bootloaderBuildStage"
-import FaviconsBuildStage from "./faviconsBuildStage"
 
-export default (game, metadata, favicons, createDistDirectory) => {
+export default (game, metadata, createDistDirectory) => {
   const createWasmDistDirectory = new CreateDirectoryBuildStage(
     game,
     `wasm/createDistDirectory`,
@@ -11,7 +10,6 @@ export default (game, metadata, favicons, createDistDirectory) => {
     [createDistDirectory]
   )
 
-  new HtmlBuildStage(game, metadata, favicons, createWasmDistDirectory)
+  new HtmlBuildStage(game, metadata, createWasmDistDirectory)
   new BootloaderBuildStage(game, createWasmDistDirectory)
-  new FaviconsBuildStage(game, favicons, createWasmDistDirectory)
 }

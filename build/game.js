@@ -3,7 +3,6 @@ import ReadJsonBuildStage from "./readJsonBuildStage"
 import DeleteDirectoryBuildStage from "./deleteDirectoryBuildStage"
 import CreateDirectoryBuildStage from "./createDirectoryBuildStage"
 import GenerateMetadataHeaderBuildStage from "./generateMetadataHeaderBuildStage"
-import FaviconsBuildStage from "./faviconsBuildStage"
 import addGraphsBuildStages from "./graphs/addGraphsBuildStages"
 import addWasmBuildStages from "./wasm/addWasmBuildStages"
 
@@ -57,15 +56,8 @@ export default class Game {
       createTempDirectory
     )
 
-    const favicons = new FaviconsBuildStage(
-      this,
-      `favicons`,
-      metadata,
-      () => [`games`, name, `logo.svg`]
-    )
-
     addGraphsBuildStages(this, createDistDirectory)
-    addWasmBuildStages(this, metadata, favicons, createDistDirectory)
+    addWasmBuildStages(this, metadata, createDistDirectory)
 
     this.handleBuildStageChanges()
   }
