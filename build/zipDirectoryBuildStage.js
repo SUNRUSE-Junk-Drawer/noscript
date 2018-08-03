@@ -18,7 +18,16 @@ export default class ZipDirectoryBuildStage extends BuildStage {
     const output = fs.createWriteStream(path.join.apply(path, this.destinationPathSegmentFactory()))
     output
       .on(`error`, e => this.handle(e, () => { throw new Error(`An error occurred but could not be reported`) }))
-      .on(`close`, () => this.done())
+      .on(`close`, () => {
+        const target = 13 * 1024
+        this.handle(
+          output.bytesWritten > target && `The archive is too large (${output.bytesWritten} > ${target} bytes by ${output.bytesWritten - target} bytes; ${(output.bytesWritten - target) * 100 / target}%)`,
+          () => {
+            this.log(`Archive is ${output.bytesWritten} of ${target} bytes (${output.bytesWritten * 100 / target}%)`)
+            this.done()
+          }
+        )
+      })
 
     archive.pipe(output)
     archive.directory(path.join.apply(path, this.directoryPathSegmentFactory()), false)
