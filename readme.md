@@ -1,7 +1,7 @@
 # js13kgames-template
 
 This is a little build pipeline which compiles small applications, intended for
-the [JS13kGames competition](https://js13kgames.com).
+the [Js13kGames competition](https://js13kgames.com).
 
 It is a (heavily diverged) fork of
 [Spartan Engine](https://github.com/jameswilddev/spartan-engine).
