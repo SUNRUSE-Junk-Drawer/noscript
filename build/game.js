@@ -2,6 +2,7 @@ import * as path from "path"
 import ReadJsonBuildStage from "./readJsonBuildStage"
 import DeleteDirectoryBuildStage from "./deleteDirectoryBuildStage"
 import CreateDirectoryBuildStage from "./createDirectoryBuildStage"
+import ZipDirectoryBuildStage from "./zipDirectoryBuildStage"
 import GenerateMetadataHeaderBuildStage from "./generateMetadataHeaderBuildStage"
 import addGraphsBuildStages from "./graphs/addGraphsBuildStages"
 import addWasmBuildStages from "./wasm/addWasmBuildStages"
@@ -58,6 +59,17 @@ export default class Game {
 
     addGraphsBuildStages(this, createDistDirectory)
     addWasmBuildStages(this, metadata, createDistDirectory)
+
+    new ZipDirectoryBuildStage(
+      this,
+      `wasm/zip`,
+      () => [`games`, name, `dist`, `wasm`],
+      () => [`dist`, `${metadata.json.applicationName}.zip`],
+      [
+        this.buildStage(`wasm/html`),
+        this.buildStage(`wasm/bootloader`),
+      ]
+    )
 
     this.handleBuildStageChanges()
   }

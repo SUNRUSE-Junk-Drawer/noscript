@@ -2,7 +2,6 @@ import rimraf from "rimraf"
 import mkdirp from "mkdirp"
 import forEachGame from "./forEachGame"
 import Game from "./game"
-import ZipDirectoryBuildStage from "./zipDirectoryBuildStage"
 
 console.log(`Deleting "dist"...`)
 rimraf(`dist`, error => {
@@ -17,19 +16,6 @@ rimraf(`dist`, error => {
     }
 
     console.log(`Starting build...`)
-    forEachGame(name => {
-      const game = new Game(name, true)
-
-      new ZipDirectoryBuildStage(
-        game,
-        `wasm/zip`,
-        () => [`games`, game.name, `dist`, `wasm`],
-        () => [`dist`, `${game.buildStage(`metadata`).json.applicationName} (Web).zip`],
-        [
-          game.buildStage(`wasm/html`),
-          game.buildStage(`wasm/bootloader`),
-        ]
-      )
-    })
+    forEachGame(name => new Game(name, true))
   })
 })
