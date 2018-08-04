@@ -54,7 +54,6 @@ export default class BuildStage {
         this.state = `restarting`
         break
       case `restarting`:
-        this.log(`Start requested; restarting (nothing to do).`)
         break
       case `completed`:
         this.log(`Start requested; discarding previous result and invalidating dependents...`)
@@ -63,7 +62,6 @@ export default class BuildStage {
         this.game.handleBuildStageChanges()
         break
       case `disabled`:
-        this.log(`Start requested; disabled (nothing to do).`)
         break
       case `failed`:
         this.log(`Start requested; restarting following previous failure...`)
@@ -77,14 +75,12 @@ export default class BuildStage {
   invalidate(levels) {
     switch (this.state) {
       case `waitingToStart`:
-        this.log(`${`\t`.repeat(levels)}Waiting to start; nothing to invalidate.`)
         break
       case `running`:
         this.log(`${`\t`.repeat(levels)}Running; restarting.`)
         this.state = `restarting`
         break
       case `restarting`:
-        this.log(`${`\t`.repeat(levels)}Restarting; nothing to invalidate.`)
         break
       case `completed`:
         this.log(`${`\t`.repeat(levels)}Previous completion invalidated.`)
@@ -92,10 +88,8 @@ export default class BuildStage {
         this.dependents.forEach(dependent => dependent.invalidate(levels + 1))
         break
       case `disabled`:
-        this.log(`${`\t`.repeat(levels)}Disabled; nothing to invalidate.`)
         break
       case `failed`:
-        this.log(`${`\t`.repeat(levels)}Previously failed; nothing to invalidate.`)
         break
     }
   }
@@ -177,19 +171,14 @@ export default class BuildStage {
         this.performStart()
         break
       case `running`:
-        this.log(`Running (nothing to do).`)
         break
       case `restarting`:
-        this.log(`Restarting (nothing to do).`)
         break
       case `completed`:
-        this.log(`Completed (nothing to do).`)
         break
       case `disabled`:
-        this.log(`Disabled (nothing to do).`)
         break
       case `failed`:
-        this.log(`Previously failed (nothing to do).`)
         break
     }
   }
