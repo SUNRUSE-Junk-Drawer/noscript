@@ -62,7 +62,7 @@ export default class BuildStage {
         break
       case `restarting`:
         break
-      case `completed`:
+      case `done`:
         this.log(`Start requested; discarding previous result and invalidating dependents...`)
         this.state = `waitingToStart`
         this.dependents.forEach(dependent => dependent.invalidate(1))
@@ -91,7 +91,7 @@ export default class BuildStage {
         break
       case `restarting`:
         break
-      case `completed`:
+      case `done`:
         this.log(`${`\t`.repeat(levels)}Previous completion invalidated.`)
         this.state = `waitingToStart`
         this.dependents.forEach(dependent => dependent.invalidate(levels + 1))
@@ -113,7 +113,7 @@ export default class BuildStage {
         return true
       case `restarting`:
         return true
-      case `completed`:
+      case `done`:
         return false
       case `disabled`:
         return true
@@ -131,7 +131,7 @@ export default class BuildStage {
       case `restarting`:
         return true
       case `waitingToStart`:
-      case `completed`:
+      case `done`:
       case `failed`:
         return this.dependents.some(dependent => dependent.blocksDependencies())
       case `disabled`:
@@ -145,7 +145,7 @@ export default class BuildStage {
     switch (this.state) {
       case `running`:
         this.log(`Done.`)
-        this.state = `completed`
+        this.state = `done`
         handleBuildStageChanges()
         break
       case `restarting`:
@@ -177,7 +177,7 @@ export default class BuildStage {
         break
       case `restarting`:
         break
-      case `completed`:
+      case `done`:
         break
       case `disabled`:
         break
