@@ -1,11 +1,12 @@
 import * as path from "path"
 import * as fs from "fs"
 
-export default callback => fs.readdir(`games`, (error, files) => {
+export default (forEachFile, then) => fs.readdir(`games`, (error, files) => {
   if (error) {
     throw error
   }
 
+  let remaining = files.length
   files.forEach(name => {
     const absoluteFile = path.join(`games`, name)
 
@@ -16,10 +17,18 @@ export default callback => fs.readdir(`games`, (error, files) => {
 
       if (!stats.isDirectory()) {
         console.warn(`Ignoring non-directory "${name}" in "games" directory.`)
-        return
+      } else {
+        forEachFile(name)
       }
 
-      callback(name)
+      remaining--
+      if (!remaining) {
+        then()
+      }
     })
   })
+
+  if (!remaining) {
+    then()
+  }
 })

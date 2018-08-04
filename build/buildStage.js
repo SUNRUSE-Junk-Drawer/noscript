@@ -1,3 +1,11 @@
+export const all = []
+
+export const handleBuildStageChanges = () => {
+  console.log(`Performing state check...`)
+  all.forEach(buildStage => buildStage.checkState())
+  console.log(`Done.`)
+}
+
 export default class BuildStage {
   constructor(game, name, dependencies, disabled) {
     this.game = game
@@ -11,7 +19,7 @@ export default class BuildStage {
       this.log(`Disabled.`)
     }
 
-    game.buildStages.push(this)
+    all.push(this)
     for (const dependency of this.dependencies) {
       dependency.listen(this)
       if (dependency.state == `disabled` && this.state != `disabled`) {
@@ -33,7 +41,7 @@ export default class BuildStage {
       } else {
         this.log(`Failed; "${potentialError}"`)
         this.state = `failed`
-        this.game.handleBuildStageChanges()
+        handleBuildStageChanges()
       }
     } else {
       onSuccess()
@@ -52,7 +60,7 @@ export default class BuildStage {
     switch (this.state) {
       case `waitingToStart`:
         this.log(`Start requested; waiting to start.`)
-        this.game.handleBuildStageChanges()
+        handleBuildStageChanges()
         break
       case `running`:
         this.log(`Start requested; waiting for opportunity to restart...`)
@@ -64,7 +72,7 @@ export default class BuildStage {
         this.log(`Start requested; discarding previous result and invalidating dependents...`)
         this.state = `waitingToStart`
         this.dependents.forEach(dependent => dependent.invalidate(1))
-        this.game.handleBuildStageChanges()
+        handleBuildStageChanges()
         break
       case `disabled`:
         break
@@ -72,7 +80,7 @@ export default class BuildStage {
         this.log(`Start requested; restarting following previous failure...`)
         this.state = `waitingToStart`
         this.dependents.forEach(dependent => dependent.invalidate(1))
-        this.game.handleBuildStageChanges()
+        handleBuildStageChanges()
         break
     }
   }
@@ -136,12 +144,12 @@ export default class BuildStage {
       case `running`:
         this.log(`Done.`)
         this.state = `completed`
-        this.game.handleBuildStageChanges()
+        handleBuildStageChanges()
         break
       case `restarting`:
         this.log(`Done, but restarting...`)
         this.state = `waitingToStart`
-        this.game.handleBuildStageChanges()
+        handleBuildStageChanges()
         break
       default:
         this.criticalStop(`Marked as done in state "${this.state}".`)

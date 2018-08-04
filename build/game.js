@@ -1,16 +1,15 @@
+import * as buildStage from "./buildStage"
 import ReadJsonBuildStage from "./readJsonBuildStage"
 import DeleteDirectoryBuildStage from "./deleteDirectoryBuildStage"
 import CreateDirectoryBuildStage from "./createDirectoryBuildStage"
 import ZipDirectoryBuildStage from "./zipDirectoryBuildStage"
 import GenerateMetadataHeaderBuildStage from "./generateMetadataHeaderBuildStage"
-import addGraphsBuildStages from "./graphs/addGraphsBuildStages"
 import addWasmBuildStages from "./wasm/addWasmBuildStages"
 
 export default class Game {
   constructor(name, oneOff) {
     this.name = name
     this.oneOff = oneOff
-    this.buildStages = []
     this.files = []
 
     const metadata = new ReadJsonBuildStage(
@@ -54,7 +53,6 @@ export default class Game {
       createTempDirectory
     )
 
-    addGraphsBuildStages(this, createDistDirectory)
     addWasmBuildStages(this, metadata, createDistDirectory)
 
     new ZipDirectoryBuildStage(
@@ -67,17 +65,9 @@ export default class Game {
         this.buildStage(`wasm/bootloader`),
       ]
     )
-
-    this.handleBuildStageChanges()
-  }
-
-  handleBuildStageChanges() {
-    console.log(`Performing state check...`)
-    this.buildStages.forEach(buildStage => buildStage.checkState())
-    console.log(`Done.`)
   }
 
   buildStage(name) {
-    return this.buildStages.find(buildStage => buildStage.name == name)
+    return buildStage.all.find(buildStage => buildStage.name == name)
   }
 }
