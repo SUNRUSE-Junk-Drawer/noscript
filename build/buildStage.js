@@ -82,6 +82,8 @@ export default class BuildStage {
         this.dependents.forEach(dependent => dependent.invalidate(1))
         handleBuildStageChanges()
         break
+      default:
+        this.criticalStop(`State "${this.state}" is not implemented by "start".`)
     }
   }
 
@@ -104,6 +106,8 @@ export default class BuildStage {
         break
       case `failed`:
         break
+      default:
+        this.criticalStop(`State "${this.state}" is not implemented by "invalidate".`)
     }
   }
 
@@ -121,6 +125,8 @@ export default class BuildStage {
         return true
       case `failed`:
         return true
+      default:
+        this.criticalStop(`State "${this.state}" is not implemented by "blocksDependents".`)
     }
   }
 
@@ -136,6 +142,8 @@ export default class BuildStage {
         return this.dependents.some(dependent => dependent.blocksDependencies())
       case `disabled`:
         return false
+      default:
+        this.criticalStop(`State "${this.state}" is not implemented by "blocksDependencies".`)
     }
   }
 
@@ -152,7 +160,7 @@ export default class BuildStage {
         handleBuildStageChanges()
         break
       default:
-        this.criticalStop(`Marked as done in state "${this.state}".`)
+        this.criticalStop(`State "${this.state}" is not implemented by "done".`)
     }
   }
 
@@ -181,6 +189,8 @@ export default class BuildStage {
         break
       case `failed`:
         break
+      default:
+        this.criticalStop(`State "${this.state}" is not implemented by "checkState".`)
     }
   }
 
