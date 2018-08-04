@@ -94,39 +94,35 @@ export default class BuildStage {
     }
   }
 
-  reasonForDependentNotToStart() {
+  blocksDependents() {
     switch (this.state) {
       case `waitingToStart`:
-        return `"${this.name}" is waiting to start.`
+        return true
       case `running`:
-        return `"${this.name}" is running.`
+        return true
       case `restarting`:
-        return `"${this.name}" is restarting.`
+        return true
       case `completed`:
-        return null
+        return false
       case `disabled`:
-        return `"${this.name} is disabled.`
+        return true
       case `failed`:
-        return `"${this.name}" failed.`
+        return true
     }
   }
 
-  reasonForDependencyNotToStart() {
+  blocksDependencies() {
     switch (this.state) {
       case `running`:
-        return `"${this.name}" is running.`
+        return true
       case `restarting`:
-        return `"${this.name}" is restarting.`
+        return true
       case `waitingToStart`:
       case `completed`:
       case `failed`:
-        return this.dependents
-          .map(dependent => dependent.reasonForDependencyNotToStart())
-          .filter(reason => reason)
-          .map(reason => `"${this.name}" -> ${reason}`)
-        [0]
+        return this.dependents.some(dependent => dependent.blocksDependencies())
       case `disabled`:
-        return null
+        return false
     }
   }
 
@@ -150,20 +146,12 @@ export default class BuildStage {
   checkState() {
     switch (this.state) {
       case `waitingToStart`:
-        for (const dependency of this.dependencies) {
-          const reason = dependency.reasonForDependentNotToStart()
-          if (reason) {
-            this.log(`Unable to start as dependency ${reason}`)
-            return
-          }
+        if (this.dependencies.some(dependency => dependency.blocksDependents())) {
+          return
         }
 
-        for (const dependent of this.dependents) {
-          const reason = dependent.reasonForDependencyNotToStart()
-          if (reason) {
-            this.log(`Unable to start as dependent ${reason}`)
-            return
-          }
+        if (this.dependents.some(dependent => dependent.blocksDependencies())) {
+          return
         }
 
         this.log(`Starting...`)
