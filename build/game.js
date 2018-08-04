@@ -1,4 +1,3 @@
-import * as path from "path"
 import ReadJsonBuildStage from "./readJsonBuildStage"
 import DeleteDirectoryBuildStage from "./deleteDirectoryBuildStage"
 import CreateDirectoryBuildStage from "./createDirectoryBuildStage"
@@ -13,8 +12,6 @@ export default class Game {
     this.oneOff = oneOff
     this.buildStages = []
     this.files = []
-
-    require(path.join(`..`, `games`, name, `schema.js`)).default(this)
 
     const metadata = new ReadJsonBuildStage(
       this,
