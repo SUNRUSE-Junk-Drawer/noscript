@@ -21,12 +21,17 @@ export default class BuildStage {
     }
   }
 
+  criticalStop(error) {
+    this.log(`CRITICAL STOP - ${error}`)
+    process.exit(1)
+  }
+
   handle(potentialError, onSuccess) {
     if (potentialError) {
-      this.log(`Failed; "${potentialError}"`)
       if (this.game.oneOff) {
-        process.exit(1)
+        this.criticalStop(potentialError)
       } else {
+        this.log(`Failed; "${potentialError}"`)
         this.state = `failed`
         this.game.handleBuildStageChanges()
       }
@@ -139,7 +144,7 @@ export default class BuildStage {
         this.game.handleBuildStageChanges()
         break
       default:
-        throw new Error(`Build stage "${this.name}" marked as done in state "${this.state}"`)
+        this.criticalStop(`Marked as done in state "${this.state}".`)
     }
   }
 
