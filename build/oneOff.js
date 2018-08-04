@@ -19,7 +19,7 @@ rimraf(`dist`, error => {
     console.log(`Starting build...`)
     forEachGame(
       name => new Game(name, true),
-      () => buildStage.handleBuildStageChanges()
+      () => { }
     )
   })
 })

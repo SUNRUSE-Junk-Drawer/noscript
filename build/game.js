@@ -65,6 +65,8 @@ export default class Game {
         this.buildStage(`wasm/bootloader`),
       ]
     )
+
+    metadata.start()
   }
 
   buildStage(name) {

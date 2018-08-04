@@ -33,7 +33,7 @@ rimraf(`dist`, error => {
         watch(path.join(`games`, name, `metadata.json`), [`metadata`])
         watch(`build/wasm/bootloader.js`, [`wasm/bootloader`])
       },
-      () => buildStage.handleBuildStageChanges()
+      () => { }
     )
   })
 })
