@@ -157,9 +157,15 @@ export default class BuildStage {
         handleBuildStageChanges()
         break
       case `restarting`:
-        this.log(`Done, but restarting...`)
-        this.state = `blocked`
-        handleBuildStageChanges()
+        if (this.canStart()) {
+          this.log(`Done, but restarting...`)
+          this.state = `running`
+          this.performStart()
+        } else {
+          this.log(`Done, but restart blocked.`)
+          this.state = `blocked`
+          handleBuildStageChanges()
+        }
         break
       default:
         this.criticalStop(`State "${this.state}" is not implemented by "done".`)
