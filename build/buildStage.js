@@ -1,9 +1,7 @@
 export const all = []
 
 export const handleBuildStageChanges = () => {
-  console.log(`Performing state check...`)
   all.forEach(buildStage => buildStage.checkState())
-  console.log(`Done.`)
 }
 
 export default class BuildStage {
