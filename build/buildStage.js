@@ -21,7 +21,7 @@ export default class BuildStage {
 
     all.push(this)
     for (const dependency of this.dependencies) {
-      dependency.listen(this)
+      dependency.dependents.push(this)
       if (dependency.state == `disabled` && this.state != `disabled`) {
         this.log(`Disabled by dependency "${dependency.name}".`)
         this.state = `disabled`
@@ -50,10 +50,6 @@ export default class BuildStage {
 
   log(message) {
     console.log(`${this.game.name}/${this.name} - ${message}`)
-  }
-
-  listen(buildStage) {
-    this.dependents.push(buildStage)
   }
 
   start() {
