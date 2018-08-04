@@ -185,7 +185,6 @@ export default class BuildStage {
   }
 
   performStart() {
-    this.log(`This process has not yet been implemented.`)
-    this.done()
+    this.criticalStop(`"performStart" is not implemented.`)
   }
 }
