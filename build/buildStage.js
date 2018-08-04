@@ -166,16 +166,24 @@ export default class BuildStage {
     }
   }
 
+  canStart() {
+    if (this.dependencies.some(dependency => dependency.blocksDependents())) {
+      return false
+    }
+
+    if (this.dependents.some(dependent => dependent.blocksDependencies())) {
+      return false
+    }
+
+    return true
+  }
+
   checkState() {
     switch (this.state) {
       case `waitingForStart`:
         break
       case `blocked`:
-        if (this.dependencies.some(dependency => dependency.blocksDependents())) {
-          return
-        }
-
-        if (this.dependents.some(dependent => dependent.blocksDependencies())) {
+        if (!this.canStart()) {
           return
         }
 
