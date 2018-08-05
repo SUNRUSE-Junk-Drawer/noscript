@@ -54,9 +54,14 @@ export default class BuildStage {
   start() {
     switch (this.state) {
       case `waitingForStart`:
-        this.log(`Start requested; waiting to start.`)
-        this.state = `running`
-        this.performStart()
+        if (this.canStart()) {
+          this.log(`Started.`)
+          this.state = `running`
+          this.performStart()
+        } else {
+          this.log(`Start requested, but blocked.`)
+          this.state = `blocked`
+        }
         break
       case `running`:
         this.log(`Start requested; waiting for opportunity to restart...`)
