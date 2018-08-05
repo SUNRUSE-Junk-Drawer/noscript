@@ -47,7 +47,7 @@ export default class BuildStage {
   }
 
   log(message) {
-    console.log(`${this.game.name}/${this.name} - ${message}`)
+    console.log(`${this.name} - ${message}`)
   }
 
   start() {

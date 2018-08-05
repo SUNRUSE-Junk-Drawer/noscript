@@ -17,7 +17,7 @@ rimraf(`dist`, error => {
 
     console.log(`Starting build...`)
     forEachGame(
-      name => new Game(name, true),
+      name => new Game(null, name, true).start(),
       () => { }
     )
   })

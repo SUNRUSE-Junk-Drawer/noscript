@@ -20,7 +20,8 @@ rimraf(`dist`, error => {
     console.log(`Starting build...`)
     forEachGame(
       name => {
-        const game = new Game(name, false)
+        const game = new Game(null, name, false)
+        game.start()
 
         const watch = (paths, buildStageNames) => chokidar.watch(paths, { ignoreInitial: true })
           .on(`error`, error => { throw error })
