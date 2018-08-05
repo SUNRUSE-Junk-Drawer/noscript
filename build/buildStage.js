@@ -12,6 +12,7 @@ export default class BuildStage {
 
     this.dependents = []
     this.state = disabled ? `disabled` : (dependencies.length ? `blocked` : `waitingForStart`)
+    this.fullName = parent ? `${parent.fullName}/${name}` : name
 
     if (disabled) {
       this.log(`Disabled.`)
@@ -47,7 +48,7 @@ export default class BuildStage {
   }
 
   log(message) {
-    console.log(`${this.name} - ${message}`)
+    console.log(`${this.fullName} - ${message}`)
   }
 
   start() {
