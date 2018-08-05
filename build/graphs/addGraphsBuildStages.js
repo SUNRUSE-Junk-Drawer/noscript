@@ -1,17 +1,17 @@
 import CreateDirectoryBuildStage from "./../createDirectoryBuildStage"
 import BuildStageGraphBuildStage from "./buildStageGraphBuildStage"
 
-export default (game, createDistDirectory) => {
+export default (parent, createDistDirectory) => {
   const createGraphsDistDirectory = new CreateDirectoryBuildStage(
-    game,
+    parent,
     `graphs/createDistDirectory`,
-    () => [`games`, game.name, `dist`, `graphs`],
+    () => [`games`, parent.name, `dist`, `graphs`],
     [createDistDirectory]
   )
 
   new BuildStageGraphBuildStage(
-    game,
-    () => [`games`, game.name, `dist`, `graphs`, `buildStages.nomnoml`],
+    parent,
+    () => [`games`, parent.name, `dist`, `graphs`, `buildStages.nomnoml`],
     createGraphsDistDirectory
   )
 }

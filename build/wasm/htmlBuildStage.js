@@ -2,11 +2,11 @@ import * as htmlMinifier from "html-minifier"
 import WriteFileBuildStage from "./../writeFileBuildStage"
 
 export default class HtmlBuildStage extends WriteFileBuildStage {
-  constructor(game, metadata, createWasmDistDirectory) {
+  constructor(parent, metadata, createWasmDistDirectory) {
     super(
-      game,
+      parent,
       `wasm/html`,
-      () => [`games`, game.name, `dist`, `wasm`, `index.html`],
+      () => [`games`, parent.name, `dist`, `wasm`, `index.html`],
       () => htmlMinifier.minify(`
         <!DOCTYPE html>
         <html>

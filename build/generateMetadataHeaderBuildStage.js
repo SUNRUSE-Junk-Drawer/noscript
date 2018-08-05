@@ -1,11 +1,11 @@
 import WriteFileBuildStage from "./writeFileBuildStage"
 
 export default class GenerateMetadataHeaderBuildStage extends WriteFileBuildStage {
-  constructor(game, metadata, createTempDirectory) {
+  constructor(parent, metadata, createTempDirectory) {
     super(
-      game,
+      parent,
       `generateMetadataHeader`,
-      () => [`games`, game.name, `temp`, `metadata.h`],
+      () => [`games`, parent.name, `temp`, `metadata.h`],
       () => `
         #define SE_METADATA_APPLICATION_ID ${JSON.stringify(metadata.json.applicationId)}
         #define SE_METADATA_APPLICATION_NAME ${JSON.stringify(metadata.json.applicationName)}

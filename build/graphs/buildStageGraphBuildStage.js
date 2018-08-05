@@ -1,17 +1,17 @@
 import WriteFileBuildStage from "./../writeFileBuildStage"
 
 export default class BuildStageGraphBuildStage extends WriteFileBuildStage {
-  constructor(game, pathSegmentFactory, createGraphsDistDirectory) {
+  constructor(parent, pathSegmentFactory, createGraphsDistDirectory) {
     super(
-      game,
+      parent,
       `graphs/buildStageGraph`,
       pathSegmentFactory,
       () => {
-        const nodes = game.buildStages
+        const nodes = parent.buildStages
           .map(buildStage => `[${buildStage.state == `disabled` ? `<reference>` : ``}${buildStage.name}]`)
           .join(`\n`)
 
-        const links = game.buildStages
+        const links = parent.buildStages
           .map(dependency => dependency.dependents
             .map(dependent => `[${dependency.name}] -> [${dependent.name}]`)
             .join(`\n`))

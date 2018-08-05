@@ -2,14 +2,14 @@ import CreateDirectoryBuildStage from "./../createDirectoryBuildStage"
 import HtmlBuildStage from "./htmlBuildStage"
 import BootloaderBuildStage from "./bootloaderBuildStage"
 
-export default (game, metadata, createDistDirectory) => {
+export default (parent, metadata, createDistDirectory) => {
   const createWasmDistDirectory = new CreateDirectoryBuildStage(
-    game,
+    parent,
     `wasm/createDistDirectory`,
-    () => [`games`, game.name, `dist`, `wasm`],
+    () => [`games`, parent.name, `dist`, `wasm`],
     [createDistDirectory]
   )
 
-  new HtmlBuildStage(game, metadata, createWasmDistDirectory)
-  new BootloaderBuildStage(game, createWasmDistDirectory)
+  new HtmlBuildStage(parent, metadata, createWasmDistDirectory)
+  new BootloaderBuildStage(parent, createWasmDistDirectory)
 }

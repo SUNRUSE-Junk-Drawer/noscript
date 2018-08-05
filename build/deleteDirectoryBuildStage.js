@@ -3,8 +3,8 @@ import rimraf from "rimraf"
 import BuildStage from "./buildStage"
 
 export default class DeleteDirectoryBuildStage extends BuildStage {
-  constructor(game, name, pathSegmentFactory, dependencies) {
-    super(game, name, dependencies, false)
+  constructor(parent, name, pathSegmentFactory, dependencies) {
+    super(parent, name, dependencies, false)
     this.pathSegmentFactory = pathSegmentFactory
   }
 

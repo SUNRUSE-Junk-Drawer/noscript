@@ -5,8 +5,8 @@ export const handleBuildStageChanges = () => {
 }
 
 export default class BuildStage {
-  constructor(game, name, dependencies, disabled) {
-    this.game = game
+  constructor(parent, name, dependencies, disabled) {
+    this.parent = parent
     this.name = name
     this.dependencies = dependencies
 
@@ -34,7 +34,7 @@ export default class BuildStage {
 
   handle(potentialError, onSuccess) {
     if (potentialError) {
-      if (this.game.oneOff) {
+      if (this.parent.oneOff) {
         this.criticalStop(potentialError)
       } else {
         this.log(`Failed; "${potentialError}"`)

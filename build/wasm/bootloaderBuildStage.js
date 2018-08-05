@@ -4,8 +4,8 @@ import * as uglifyJs from "uglify-js"
 import BuildStage from "./../buildStage"
 
 export default class BootloaderBuildStage extends BuildStage {
-  constructor(game, createWasmDistDirectory) {
-    super(game, `wasm/bootloader`, [createWasmDistDirectory], false)
+  constructor(parent, createWasmDistDirectory) {
+    super(parent, `wasm/bootloader`, [createWasmDistDirectory], false)
   }
 
   performStart() {
@@ -21,7 +21,7 @@ export default class BootloaderBuildStage extends BuildStage {
         toplevel: true
       })
       this.handle(uglified.error, () => {
-        const outputPath = path.join(`games`, this.game.name, `dist`, `wasm`, `bootloader.js`)
+        const outputPath = path.join(`games`, this.parent.name, `dist`, `wasm`, `bootloader.js`)
         this.log(`Writing "${outputPath}"...`)
         fs.writeFile(outputPath, uglified.code, error => this.handle(error, () => this.done()))
       })

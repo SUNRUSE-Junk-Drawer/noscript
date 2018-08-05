@@ -4,8 +4,8 @@ import archiver from "archiver"
 import BuildStage from "./buildStage"
 
 export default class ZipDirectoryBuildStage extends BuildStage {
-  constructor(game, name, directoryPathSegmentFactory, destinationPathSegmentFactory, dependencies) {
-    super(game, name, dependencies, false)
+  constructor(parent, name, directoryPathSegmentFactory, destinationPathSegmentFactory, dependencies) {
+    super(parent, name, dependencies, false)
     this.directoryPathSegmentFactory = directoryPathSegmentFactory
     this.destinationPathSegmentFactory = destinationPathSegmentFactory
   }
