@@ -175,8 +175,6 @@ export default class BuildStage {
 
   checkState() {
     switch (this.state) {
-      case `waitingForStart`:
-        break
       case `blocked`:
         if (!this.canStart()) {
           return
@@ -186,14 +184,11 @@ export default class BuildStage {
         this.state = `running`
         this.performStart()
         break
+      case `waitingForStart`:
       case `running`:
-        break
       case `restarting`:
-        break
       case `done`:
-        break
       case `disabled`:
-        break
       case `failed`:
         break
       default:
