@@ -39,7 +39,7 @@ export default class GroupBuildStage extends BuildStage {
               return true
 
             default:
-              this.criticalStop(`State "${this.state}" is not implemented by "checkState" when inspecting child build stages.`)
+              this.criticalStop(`State "${this.state}" is not implemented by "checkState" when inspecting child "${child.fullName}".`)
           }
         })) {
           return
