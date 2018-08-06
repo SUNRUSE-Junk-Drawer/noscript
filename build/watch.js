@@ -28,6 +28,7 @@ rimraf(`dist`, error => {
           .on(`all`, (event, path) => {
             console.log(`Starting build stages affected by ${event} of "${path}"...`)
             buildStageNames.forEach(buildStageName => game.buildStage(buildStageName).start())
+            game.start()
           })
 
         watch(path.join(`games`, name, `metadata.json`), [`metadata`])

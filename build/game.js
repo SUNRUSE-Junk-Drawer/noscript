@@ -1,5 +1,5 @@
 import * as buildStage from "./buildStage"
-import BuildStage from "./buildStage"
+import GroupBuildStage from "./groupBuildStage"
 import ReadJsonBuildStage from "./readJsonBuildStage"
 import DeleteDirectoryBuildStage from "./deleteDirectoryBuildStage"
 import CreateDirectoryBuildStage from "./createDirectoryBuildStage"
@@ -7,7 +7,7 @@ import ZipDirectoryBuildStage from "./zipDirectoryBuildStage"
 import GenerateMetadataHeaderBuildStage from "./generateMetadataHeaderBuildStage"
 import addWasmBuildStages from "./wasm/addWasmBuildStages"
 
-export default class Game extends BuildStage {
+export default class Game extends GroupBuildStage {
   constructor(parent, name, oneOff) {
     super(parent, name, [], false)
     this.oneOff = oneOff
@@ -72,9 +72,5 @@ export default class Game extends BuildStage {
 
   buildStage(name) {
     return buildStage.all.find(buildStage => buildStage.name == name)
-  }
-
-  performStart() {
-    this.done()
   }
 }
