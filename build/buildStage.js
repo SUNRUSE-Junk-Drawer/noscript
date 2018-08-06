@@ -18,6 +18,9 @@ export default class BuildStage {
       this.log(`Disabled.`)
     }
 
+    if (parent) {
+      parent.children.push(this)
+    }
     all.push(this)
     for (const dependency of this.dependencies) {
       dependency.dependents.push(this)
@@ -179,6 +182,10 @@ export default class BuildStage {
     }
 
     if (this.dependents.some(dependent => dependent.blocksDependencies())) {
+      return false
+    }
+
+    if (this.parent && this.parent.blocksChildren()) {
       return false
     }
 
