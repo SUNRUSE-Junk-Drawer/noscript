@@ -11,7 +11,11 @@ export default class GroupBuildStage extends BuildStage {
     switch (this.state) {
       case `running`:
       case `restarting`:
-        return false
+        if (this.parent) {
+          return this.parent.blocksChildren()
+        } else {
+          return false
+        }
       case `waitingForStart`:
       case `blocked`:
       case `done`:
