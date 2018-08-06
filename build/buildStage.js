@@ -100,11 +100,17 @@ export default class BuildStage {
         this.state = `blocked`
         this.dependents.forEach(dependent => dependent.invalidate(levels + 1))
         break
+
+      case `failed`:
+        this.log(`${`\t`.repeat(levels)}Previous failure invalidated.`)
+        this.state = `blocked`
+        this.dependents.forEach(dependent => dependent.invalidate(levels + 1))
+        break
+
       case `waitingForStart`:
       case `blocked`:
       case `restarting`:
       case `disabled`:
-      case `failed`:
         break
       default:
         this.criticalStop(`State "${this.state}" is not implemented by "invalidate".`)
