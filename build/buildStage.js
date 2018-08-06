@@ -218,4 +218,18 @@ export default class BuildStage {
   performStart() {
     this.criticalStop(`"performStart" is not implemented.`)
   }
+
+  get(path) {
+    const child = this.children.find(child => child.name == path[0])
+
+    if (!child) {
+      return null
+    }
+
+    if (path.length == 1) {
+      return child
+    } else {
+      return child.get(path.slice(1))
+    }
+  }
 }

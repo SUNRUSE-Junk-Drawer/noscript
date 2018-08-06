@@ -23,16 +23,16 @@ rimraf(`dist`, error => {
         const game = new Game(null, name, false)
         game.start()
 
-        const watch = (paths, buildStageNames) => chokidar.watch(paths, { ignoreInitial: true })
+        const watch = (paths, buildStagePaths) => chokidar.watch(paths, { ignoreInitial: true })
           .on(`error`, error => { throw error })
           .on(`all`, (event, path) => {
             console.log(`Starting build stages affected by ${event} of "${path}"...`)
-            buildStageNames.forEach(buildStageName => game.buildStage(buildStageName).start())
+            buildStagePaths.forEach(buildStagePath => game.get(buildStagePath).start())
             game.start()
           })
 
-        watch(path.join(`games`, name, `metadata.json`), [`metadata`])
-        watch(`build/wasm/bootloader.js`, [`wasm/bootloader`])
+        watch(path.join(`games`, name, `metadata.json`), [[`metadata`]])
+        watch(`build/wasm/bootloader.js`, [[`wasm/bootloader`]])
       },
       () => { }
     )

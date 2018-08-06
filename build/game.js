@@ -55,15 +55,11 @@ export default class Game extends GroupBuildStage {
       () => [`games`, name, `dist`, `wasm`],
       () => [`dist`, `${metadata.json.applicationName}.zip`],
       [
-        this.buildStage(`wasm/html`),
-        this.buildStage(`wasm/bootloader`),
+        this.get([`wasm/html`]),
+        this.get([`wasm/bootloader`]),
       ]
     )
 
     metadata.start()
-  }
-
-  buildStage(name) {
-    return buildStage.all.find(buildStage => buildStage.name == name)
   }
 }
