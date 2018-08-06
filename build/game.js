@@ -4,7 +4,6 @@ import ReadJsonBuildStage from "./readJsonBuildStage"
 import DeleteDirectoryBuildStage from "./deleteDirectoryBuildStage"
 import CreateDirectoryBuildStage from "./createDirectoryBuildStage"
 import ZipDirectoryBuildStage from "./zipDirectoryBuildStage"
-import GenerateMetadataHeaderBuildStage from "./generateMetadataHeaderBuildStage"
 import addWasmBuildStages from "./wasm/addWasmBuildStages"
 
 export default class Game extends GroupBuildStage {
@@ -46,12 +45,6 @@ export default class Game extends GroupBuildStage {
       `createDistDirectory`,
       () => [`games`, name, `dist`],
       [deleteDistDirectory]
-    )
-
-    const generateMetadataHeader = new GenerateMetadataHeaderBuildStage(
-      this,
-      metadata,
-      createTempDirectory
     )
 
     addWasmBuildStages(this, metadata, createDistDirectory)
