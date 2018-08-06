@@ -35,7 +35,7 @@ export default class BuildStage {
 
   handle(potentialError, onSuccess) {
     if (potentialError) {
-      if (this.parent.oneOff) {
+      if (this.parent ? this.parent.oneOff : this.oneOff) {
         this.criticalStop(potentialError)
       } else {
         this.log(`Failed; "${potentialError}"`)
