@@ -68,4 +68,9 @@ export default class GroupBuildStage extends BuildStage {
   performStart() {
     buildStage.handleBuildStageChanges()
   }
+
+  stop() {
+    super.stop()
+    this.children.forEach(child => child.stop())
+  }
 }

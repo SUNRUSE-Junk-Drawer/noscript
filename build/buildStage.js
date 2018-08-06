@@ -179,6 +179,10 @@ export default class BuildStage {
           handleBuildStageChanges()
         }
         break
+      case `stopping`:
+        this.log(`Stopped.`)
+        this.state = `stopped`
+        break
       default:
         this.criticalStop(`State "${this.state}" is not implemented by "done".`)
     }
@@ -239,5 +243,38 @@ export default class BuildStage {
     } else {
       return child.get(path.slice(1))
     }
+  }
+
+  stop() {
+    switch (this.state) {
+      case `waitingForStart`:
+      case `done`:
+      case `failed`:
+      case `blocked`:
+      case `disabled`:
+        this.log(`Stopped.`)
+        this.state = `stopped`
+        break
+
+      case `running`:
+      case `restarting`:
+        this.log(`Stopping...`)
+        this.state = `stopping`
+        break
+
+      default:
+        this.criticalStop(`State "${this.state}" is not implemented by "start".`)
+    }
+
+    all.splice(all.indexOf(this), 1)
+
+    if (this.parent) {
+      this.parent.children.splice(this.parent.children.indexOf(this), 1)
+    }
+
+    this.dependencies.forEach(dependency => dependency.dependents.splice(dependency.dependents.indexOf(this), 1))
+    this.dependencies.length = 0
+
+    this.dependents.forEach(dependent => dependent.stop())
   }
 }
