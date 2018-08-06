@@ -36,9 +36,17 @@ export default class BuildStage {
     process.exit(1)
   }
 
+  oneOff() {
+    if (this.parent) {
+      return this.parent.oneOff()
+    } else {
+      this.criticalStop(`"oneOff" is only implemented for BuildStages with parents`)
+    }
+  }
+
   handle(potentialError, onSuccess) {
     if (potentialError) {
-      if (this.parent ? this.parent.oneOff : this.oneOff) {
+      if (this.oneOff()) {
         this.criticalStop(potentialError)
       } else {
         this.log(`Failed; "${potentialError}"`)

@@ -7,9 +7,9 @@ import ZipDirectoryBuildStage from "./zipDirectoryBuildStage"
 import addWasmBuildStages from "./wasm/addWasmBuildStages"
 
 export default class Game extends GroupBuildStage {
-  constructor(parent, name, oneOff) {
+  constructor(parent, name, isOneOff) {
     super(parent, name, [], false)
-    this.oneOff = oneOff
+    this.isOneOff = isOneOff
     this.files = []
 
     const metadata = new ReadJsonBuildStage(
@@ -61,5 +61,9 @@ export default class Game extends GroupBuildStage {
     )
 
     metadata.start()
+  }
+
+  oneOff() {
+    return this.isOneOff
   }
 }
