@@ -62,7 +62,7 @@ export default class BuildStage {
     console.log(`${this.fullName} - ${message}`)
   }
 
-  start() {
+  startButDoNotRestart() {
     switch (this.state) {
       case `waitingForStart`:
         if (this.canStart()) {
@@ -73,6 +73,54 @@ export default class BuildStage {
           this.log(`Start requested, but blocked.`)
           this.state = `blocked`
         }
+        if (this.parent) {
+          this.parent.startButDoNotRestart()
+        }
+        break
+      case `done`:
+        this.log(`Start requested; discarding previous result and invalidating dependents...`)
+        this.state = `blocked`
+        this.dependents.forEach(dependent => dependent.invalidate(1))
+        if (this.parent) {
+          this.parent.startButDoNotRestart()
+        } else {
+          handleBuildStageChanges()
+        }
+        break
+      case `failed`:
+        this.log(`Start requested; restarting following previous failure...`)
+        this.state = `blocked`
+        this.dependents.forEach(dependent => dependent.invalidate(1))
+        if (this.parent) {
+          this.parent.startButDoNotRestart()
+        } else {
+          handleBuildStageChanges()
+        }
+        break
+      case `running`:
+      case `blocked`:
+      case `restarting`:
+      case `disabled`:
+        break
+      default:
+        this.criticalStop(`State "${this.state}" is not implemented by "startButDoNotRestart".`)
+    }
+  }
+
+  start() {
+    switch (this.state) {
+      case `waitingForStart`:
+        if (this.canStart()) {
+          this.log(`Started.`)
+          this.state = `running`
+          this.performStart()
+        } else {
+          this.log(`Start requested, but blocked.`)
+          this.state = `blocked`
+          if (this.parent) {
+            this.parent.startButDoNotRestart()
+          }
+        }
         break
       case `running`:
         this.log(`Start requested; waiting for opportunity to restart...`)
@@ -82,13 +130,21 @@ export default class BuildStage {
         this.log(`Start requested; discarding previous result and invalidating dependents...`)
         this.state = `blocked`
         this.dependents.forEach(dependent => dependent.invalidate(1))
-        handleBuildStageChanges()
+        if (this.parent) {
+          this.parent.startButDoNotRestart()
+        } else {
+          handleBuildStageChanges()
+        }
         break
       case `failed`:
         this.log(`Start requested; restarting following previous failure...`)
         this.state = `blocked`
         this.dependents.forEach(dependent => dependent.invalidate(1))
-        handleBuildStageChanges()
+        if (this.parent) {
+          this.parent.startButDoNotRestart()
+        } else {
+          handleBuildStageChanges()
+        }
         break
       case `blocked`:
       case `restarting`:
