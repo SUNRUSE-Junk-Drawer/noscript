@@ -1,4 +1,5 @@
-import * as buildStage from "./buildStage"
+import * as path from "path"
+import * as chokidar from "chokidar"
 import GroupBuildStage from "./groupBuildStage"
 import ReadJsonBuildStage from "./readJsonBuildStage"
 import DeleteDirectoryBuildStage from "./deleteDirectoryBuildStage"
@@ -7,10 +8,10 @@ import ZipDirectoryBuildStage from "./zipDirectoryBuildStage"
 import addWasmBuildStages from "./wasm/addWasmBuildStages"
 
 export default class Game extends GroupBuildStage {
-  constructor(parent, name, isOneOff) {
+  constructor(parent, name) {
     super(parent, name, [], false)
-    this.isOneOff = isOneOff
     this.files = []
+    this.watches = []
 
     const metadata = new ReadJsonBuildStage(
       this,
@@ -56,14 +57,28 @@ export default class Game extends GroupBuildStage {
       () => [`dist`, `${metadata.json.applicationName}.zip`],
       [
         this.get([`wasm/html`]),
-        this.get([`wasm/bootloader`]),
+        this.get([`wasm/bootloader`])
       ]
     )
 
-    metadata.start()
+    this.watch(path.join(`games`, name, `metadata.json`), metadata)
+    this.watch(`build/wasm/bootloader.js`, this.get([`wasm/bootloader`]))
   }
 
-  oneOff() {
-    return this.isOneOff
+  watch(path, buildStage) {
+    if (!this.oneOff()) {
+      this.watches.push(chokidar
+        .watch(path, { ignoreInitial: true })
+        .on(`error`, error => { throw error })
+        .on(`all`, (event, path) => {
+          console.log(`Starting build stage "${buildStage.fullName}" affected by ${event} of "${path}"...`)
+          buildStage.start()
+        }))
+    }
+  }
+
+  stop() {
+    super.stop()
+    this.watches.forEach(watch => watch.close())
   }
 }

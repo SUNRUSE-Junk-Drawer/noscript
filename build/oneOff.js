@@ -1,7 +1,6 @@
 import rimraf from "rimraf"
 import mkdirp from "mkdirp"
-import forEachGame from "./forEachGame"
-import Game from "./game"
+import BuildProcessBuildStage from "./buildProcessBuildStage"
 
 console.log(`Deleting "dist"...`)
 rimraf(`dist`, error => {
@@ -16,9 +15,6 @@ rimraf(`dist`, error => {
     }
 
     console.log(`Starting build...`)
-    forEachGame(
-      name => new Game(null, name, true).start(),
-      () => { }
-    )
+    new BuildProcessBuildStage(true)
   })
 })
