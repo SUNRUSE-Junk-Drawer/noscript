@@ -16,7 +16,6 @@ export default class GroupBuildStage extends BuildStage {
         } else {
           return false
         }
-      case `waitingForStart`:
       case `blocked`:
       case `done`:
       case `failed`:
@@ -54,7 +53,6 @@ export default class GroupBuildStage extends BuildStage {
         break
 
       case `blocked`:
-      case `waitingForStart`:
       case `done`:
       case `disabled`:
       case `failed`:

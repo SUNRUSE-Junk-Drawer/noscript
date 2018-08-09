@@ -11,7 +11,7 @@ export default class BuildStage {
     this.dependencies = dependencies
 
     this.dependents = []
-    this.state = disabled ? `disabled` : (dependencies.length ? `blocked` : `waitingForStart`)
+    this.state = disabled ? `disabled` : `blocked`
     this.fullName = parent ? `${parent.fullName}/${name}` : name
 
     if (disabled) {
@@ -64,19 +64,6 @@ export default class BuildStage {
 
   startButDoNotRestart() {
     switch (this.state) {
-      case `waitingForStart`:
-        if (this.canStart()) {
-          this.log(`Started.`)
-          this.state = `running`
-          this.performStart()
-        } else {
-          this.log(`Start requested, but blocked.`)
-          this.state = `blocked`
-        }
-        if (this.parent) {
-          this.parent.startButDoNotRestart()
-        }
-        break
       case `done`:
         this.log(`Start requested; discarding previous result and invalidating dependents...`)
         this.state = `blocked`
@@ -109,19 +96,6 @@ export default class BuildStage {
 
   start() {
     switch (this.state) {
-      case `waitingForStart`:
-        if (this.canStart()) {
-          this.log(`Started.`)
-          this.state = `running`
-          this.performStart()
-        } else {
-          this.log(`Start requested, but blocked.`)
-          this.state = `blocked`
-          if (this.parent) {
-            this.parent.startButDoNotRestart()
-          }
-        }
-        break
       case `running`:
         this.log(`Start requested; waiting for opportunity to restart...`)
         this.state = `restarting`
@@ -174,7 +148,6 @@ export default class BuildStage {
         this.dependents.forEach(dependent => dependent.invalidate(levels + 1))
         break
 
-      case `waitingForStart`:
       case `blocked`:
       case `restarting`:
       case `disabled`:
@@ -188,7 +161,6 @@ export default class BuildStage {
     switch (this.state) {
       case `done`:
         return false
-      case `waitingForStart`:
       case `blocked`:
       case `running`:
       case `restarting`:
@@ -205,7 +177,6 @@ export default class BuildStage {
       case `running`:
       case `restarting`:
         return true
-      case `waitingForStart`:
       case `blocked`:
       case `done`:
       case `failed`:
@@ -271,7 +242,6 @@ export default class BuildStage {
         this.state = `running`
         this.performStart()
         break
-      case `waitingForStart`:
       case `running`:
       case `restarting`:
       case `done`:
@@ -303,7 +273,6 @@ export default class BuildStage {
 
   stop() {
     switch (this.state) {
-      case `waitingForStart`:
       case `done`:
       case `failed`:
       case `blocked`:
