@@ -30,6 +30,7 @@ export default class GroupBuildStage extends BuildStage {
   checkState() {
     switch (this.state) {
       case `running`:
+      case `restarting`:
         if (!this.children.every(child => {
           switch (child.state) {
             case `blocked`:
@@ -54,7 +55,6 @@ export default class GroupBuildStage extends BuildStage {
 
       case `blocked`:
       case `waitingForStart`:
-      case `restarting`:
       case `done`:
       case `disabled`:
       case `failed`:
