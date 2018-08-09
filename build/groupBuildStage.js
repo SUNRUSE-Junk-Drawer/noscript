@@ -71,6 +71,8 @@ export default class GroupBuildStage extends BuildStage {
 
   stop() {
     super.stop()
-    this.children.forEach(child => child.stop())
+    while (this.children.length) {
+      this.children[0].stop()
+    }
   }
 }
