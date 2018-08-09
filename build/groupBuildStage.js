@@ -32,10 +32,12 @@ export default class GroupBuildStage extends BuildStage {
       case `restarting`:
         if (!this.children.every(child => {
           switch (child.state) {
-            case `blocked`:
             case `restarting`:
             case `running`:
               return false
+
+            case `blocked`:
+              return !child.canStart()
 
             case `done`:
             case `disabled`:
