@@ -10,7 +10,6 @@ import addWasmBuildStages from "./wasm/addWasmBuildStages"
 export default class Game extends GroupBuildStage {
   constructor(parent, name) {
     super(parent, name, [], false)
-    this.files = []
     this.watches = []
 
     const metadata = new ReadJsonBuildStage(
