@@ -59,7 +59,7 @@ export default class GameBuildStage extends WatchableBuildStage {
       ]
     )
 
-    this.watch(path.join(`games`, name, `metadata.json`), metadata)
-    this.watch(`build/wasm/bootloader.js`, this.get([`wasm/bootloader`]))
+    this.watch(path.join(`games`, name, `metadata.json`), metadata, null)
+    this.watch(`build/wasm/bootloader.js`, this.get([`wasm/bootloader`]), null)
   }
 }

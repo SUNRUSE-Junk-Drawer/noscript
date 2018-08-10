@@ -7,10 +7,10 @@ export default class WatchableBuildStage extends GroupBuildStage {
     this.watches = []
   }
 
-  watch(path, buildStage) {
+  watch(path, buildStage, depth) {
     if (!this.oneOff()) {
       this.watches.push(chokidar
-        .watch(path, { ignoreInitial: true })
+        .watch(path, { ignoreInitial: true, depth })
         .on(`error`, error => { throw error })
         .on(`all`, (event, path) => {
           console.log(`Starting build stage "${buildStage.fullName}" affected by ${event} of "${path}"...`)
@@ -19,10 +19,10 @@ export default class WatchableBuildStage extends GroupBuildStage {
     }
   }
 
-  watchInstanced(path, buildStage) {
+  watchInstanced(path, buildStage, depth) {
     if (!this.oneOff()) {
       this.watches.push(chokidar
-        .watch(path, { ignoreInitial: true })
+        .watch(path, { ignoreInitial: true, depth })
         .on(`error`, error => { throw error })
         .on(`all`, (event, path) => {
           const toStart = buildStage.get([path]) || buildStage
