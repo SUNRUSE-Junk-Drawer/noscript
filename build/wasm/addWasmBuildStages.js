@@ -10,6 +10,6 @@ export default (parent, metadata, createDistDirectory) => {
     [createDistDirectory]
   )
 
-  new HtmlBuildStage(parent, metadata, createWasmDistDirectory)
-  new BootloaderBuildStage(parent, createWasmDistDirectory)
+  const bootloader = new BootloaderBuildStage(parent, createWasmDistDirectory)
+  new HtmlBuildStage(parent, metadata, createWasmDistDirectory, bootloader)
 }

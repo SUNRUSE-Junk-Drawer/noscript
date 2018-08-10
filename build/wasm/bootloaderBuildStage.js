@@ -21,9 +21,8 @@ export default class BootloaderBuildStage extends BuildStage {
         toplevel: true
       })
       this.handle(uglified.error, () => {
-        const outputPath = path.join(`games`, this.parent.name, `dist`, `wasm`, `bootloader.js`)
-        this.log(`Writing "${outputPath}"...`)
-        fs.writeFile(outputPath, uglified.code, error => this.handle(error, () => this.done()))
+        this.code = uglified.code
+        this.done()
       })
     }))
   }

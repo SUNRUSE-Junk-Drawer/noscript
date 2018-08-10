@@ -2,7 +2,7 @@ import * as htmlMinifier from "html-minifier"
 import WriteFileBuildStage from "./../writeFileBuildStage"
 
 export default class HtmlBuildStage extends WriteFileBuildStage {
-  constructor(parent, metadata, createWasmDistDirectory) {
+  constructor(parent, metadata, createWasmDistDirectory, bootloader) {
     super(
       parent,
       `wasm/html`,
@@ -16,7 +16,7 @@ export default class HtmlBuildStage extends WriteFileBuildStage {
             <meta name="viewport" content="initial-scale=1, minimum-scale=1, maximum-scale=1, width=device-width, height=device-height, user-scalable=no">
           </head>
           <body style="background: black">
-            <script src="bootloader.js"></script>
+            <script>${bootloader.code}</script>
           </body>
         </html>
       `, {
@@ -33,7 +33,7 @@ export default class HtmlBuildStage extends WriteFileBuildStage {
           removeTagWhitespace: true
         }
       ),
-      [createWasmDistDirectory]
+      [createWasmDistDirectory, bootloader]
     )
   }
 }
