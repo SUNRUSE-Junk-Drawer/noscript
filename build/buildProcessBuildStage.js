@@ -1,11 +1,11 @@
 import * as chokidar from "chokidar"
 import * as buildStage from "./buildStage"
 import FileListBuildStage from "./fileListBuildStage"
-import Game from "./game"
+import GameBuildStage from "./gameBuildStage"
 
 export default class BuildProcessBuildStage extends FileListBuildStage {
   constructor(isOneOff) {
-    super(null, `games`, [], false, instanceName => new Game(this, instanceName), () => [`games`])
+    super(null, `games`, [], false, instanceName => new GameBuildStage(this, instanceName), () => [`games`])
     this.isOneOff = isOneOff
 
     if (!isOneOff) {

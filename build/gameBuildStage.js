@@ -7,7 +7,7 @@ import CreateDirectoryBuildStage from "./createDirectoryBuildStage"
 import ZipDirectoryBuildStage from "./zipDirectoryBuildStage"
 import addWasmBuildStages from "./wasm/addWasmBuildStages"
 
-export default class Game extends GroupBuildStage {
+export default class GameBuildStage extends GroupBuildStage {
   constructor(parent, name) {
     super(parent, name, [], false)
     this.watches = []
