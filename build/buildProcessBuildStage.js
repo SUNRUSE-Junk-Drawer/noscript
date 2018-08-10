@@ -1,22 +1,23 @@
-import * as chokidar from "chokidar"
 import * as buildStage from "./buildStage"
 import FileListBuildStage from "./fileListBuildStage"
 import GameBuildStage from "./gameBuildStage"
+import WatchableBuildStage from "./watchableBuildStage"
 
-export default class BuildProcessBuildStage extends FileListBuildStage {
+export default class BuildProcessBuildStage extends WatchableBuildStage {
   constructor(isOneOff) {
-    super(null, `games`, [], false, instanceName => new GameBuildStage(this, instanceName), () => [`games`])
+    super(null, `buildProcess`)
     this.isOneOff = isOneOff
 
-    if (!isOneOff) {
-      chokidar
-        .watch(`games`, { ignoreInitial: true, depth: 0 })
-        .on(`error`, error => { throw error })
-        .on(`all`, (event, path) => {
-          console.log(`Restarting "${this.fullName}" following ${event} of "${path}"...`)
-          this.start()
-        })
-    }
+    const games = new FileListBuildStage(
+      this,
+      `games`,
+      [],
+      false,
+      instanceName => new GameBuildStage(this, instanceName),
+      () => [`games`]
+    )
+
+    this.watchInstanced(`games`, games, 0)
 
     buildStage.handleBuildStageChanges()
   }
