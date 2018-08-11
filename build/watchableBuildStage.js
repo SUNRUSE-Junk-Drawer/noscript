@@ -13,7 +13,7 @@ export default class WatchableBuildStage extends GroupBuildStage {
         .watch(path, { ignoreInitial: true, depth })
         .on(`error`, error => this.criticalStop(error))
         .on(`all`, (event, path) => {
-          console.log(`Starting build stage "${buildStage.fullName}" affected by ${event} of "${path}"...`)
+          this.log(`Starting build stage "${buildStage.fullName}" affected by ${event} of "${path}"...`)
           buildStage.start()
         }))
     }
@@ -26,7 +26,7 @@ export default class WatchableBuildStage extends GroupBuildStage {
         .on(`error`, error => this.criticalStop(error))
         .on(`all`, (event, path) => {
           const toStart = buildStage.get([path]) || buildStage
-          console.log(`Starting build stage "${toStart.fullName}" affected by ${event} of "${path}"...`)
+          this.log(`Starting build stage "${toStart.fullName}" affected by ${event} of "${path}"...`)
           toStart.start()
         })
       )
