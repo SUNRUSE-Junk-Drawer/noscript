@@ -45,6 +45,10 @@ export default class BuildStage {
   }
 
   handle(potentialError, onSuccess) {
+    if (!onSuccess) {
+      potentialError = potentialError || `An error occurred but could not be reported`
+    }
+
     if (potentialError) {
       if (this.oneOff()) {
         this.criticalStop(potentialError)
