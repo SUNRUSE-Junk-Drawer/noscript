@@ -1,2 +1,3 @@
 /games/*/dist
 node_modules
+/graphs

@@ -3,6 +3,7 @@ import FileListBuildStage from "./fileListBuildStage"
 import GameBuildStage from "./gameBuildStage"
 import WatchableBuildStage from "./watchableBuildStage"
 import JavaScriptParseBuildStage from "./javaScriptParseBuildStage"
+import addGraphsBuildStages from "./addGraphsBuildStages"
 
 export default class BuildProcessBuildStage extends WatchableBuildStage {
   constructor(isOneOff) {
@@ -21,6 +22,8 @@ export default class BuildProcessBuildStage extends WatchableBuildStage {
       () => [`games`]
     )
     this.watchInstanced(`games`, games, 0)
+
+    addGraphsBuildStages(this, games)
 
     buildStage.handleBuildStageChanges()
   }
