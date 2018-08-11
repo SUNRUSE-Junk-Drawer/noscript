@@ -1,13 +1,28 @@
 import * as path from "path"
+import BuildStage from "./buildStage"
 import ReadJsonBuildStage from "./readJsonBuildStage"
 import DeleteDirectoryBuildStage from "./deleteDirectoryBuildStage"
 import CreateDirectoryBuildStage from "./createDirectoryBuildStage"
-import ZipDirectoryBuildStage from "./zipDirectoryBuildStage"
-import addWasmBuildStages from "./wasm/addWasmBuildStages"
 import WatchableBuildStage from "./watchableBuildStage"
+import JavaScriptParseBuildStage from "./javaScriptParseBuildStage"
+import javaScriptCompressors from "./javaScriptCompressors"
+import zipCompressors from "./zipCompressors"
+import WriteFileBuildStage from "./writeFileBuildStage"
+
+class HtmlGeneratorBuildStage extends BuildStage {
+  constructor(parent, name, javaScriptCombiner) {
+    super(parent, name, [javaScriptCombiner], false)
+    this.javaScriptCombiner = javaScriptCombiner
+  }
+
+  performStart() {
+    this.html = `<script>${this.javaScriptCombiner.combined}</script>`
+    this.done()
+  }
+}
 
 export default class GameBuildStage extends WatchableBuildStage {
-  constructor(parent, name) {
+  constructor(parent, name, engine) {
     super(parent, name, [], false)
     this.watches = []
 
@@ -18,25 +33,27 @@ export default class GameBuildStage extends WatchableBuildStage {
       []
     )
 
-    const deleteTempDirectory = new DeleteDirectoryBuildStage(
-      this,
-      `deleteTempDirectory`,
-      () => [`games`, name, `temp`],
-      [metadata]
-    )
+    this.watch(path.join(`games`, name, `metadata.json`), metadata, null)
 
-    const createTempDirectory = new CreateDirectoryBuildStage(
-      this,
-      `createTempDirectory`,
-      () => [`games`, name, `temp`],
-      [deleteTempDirectory]
-    )
+    const createSrcDirectory = new CreateDirectoryBuildStage(this, `createSrcDirectory`, () => [`games`, name, `src`], [])
+
+    const javaScriptParse = new JavaScriptParseBuildStage(this, `src`, [createSrcDirectory], false, () => [`games`, name, `src`])
+
+    const zipCompressorInstances = []
+
+    for (const javaScriptCompressor in javaScriptCompressors) {
+      const combiner = new javaScriptCompressors[javaScriptCompressor].combiner(this, [javaScriptParse, engine])
+      const htmlGenerator = new HtmlGeneratorBuildStage(this, `generateHtmlFrom${javaScriptCompressor.slice(0, 1).toUpperCase()}${javaScriptCompressor.slice(1)}`, combiner)
+      for (const zipCompressor in zipCompressors) {
+        zipCompressorInstances.push(new zipCompressors[zipCompressor](this, javaScriptCompressor, htmlGenerator))
+      }
+    }
 
     const deleteDistDirectory = new DeleteDirectoryBuildStage(
       this,
       `deleteDistDirectory`,
       () => [`games`, name, `dist`],
-      [metadata]
+      zipCompressorInstances.concat([metadata])
     )
 
     const createDistDirectory = new CreateDirectoryBuildStage(
@@ -46,20 +63,22 @@ export default class GameBuildStage extends WatchableBuildStage {
       [deleteDistDirectory]
     )
 
-    addWasmBuildStages(this, metadata, createDistDirectory)
-
-    new ZipDirectoryBuildStage(
+    new WriteFileBuildStage(
       this,
-      `wasm/zip`,
-      () => [`games`, name, `dist`, `wasm`],
-      () => [`dist`, `${metadata.json.applicationName}.zip`],
-      [
-        this.get([`wasm/html`]),
-        this.get([`wasm/bootloader`])
-      ]
-    )
+      `writeZip`,
+      () => [`games`, name, `dist`, `${metadata.json.applicationName}.zip`],
+      () => {
+        let best = zipCompressorInstances[0]
+        zipCompressorInstances.forEach(zipCompressorInstance => {
+          if (zipCompressorInstance.zipped.byteLength > best.zipped.byteLength) {
+            return
+          }
+          best = zipCompressorInstance
+        })
+        this.log(`Selected "${best.name}", writing...`)
+        return best.zipped
+      }, [createDistDirectory])
 
-    this.watch(path.join(`games`, name, `metadata.json`), metadata, null)
-    this.watch(`build/wasm/bootloader.js`, this.get([`wasm/bootloader`]), null)
+    this.watchInstanced(path.join(`games`, name, `src`), javaScriptParse, null)
   }
 }
