@@ -1,2 +1,2 @@
-dist
+/games/*/dist
 node_modules
