@@ -5,6 +5,7 @@ node_js:
 cache:
   directories:
     - node_modules
+    - $HOME/.npm
 script:
   - npm run-script oneOff
 deploy:
