@@ -9,6 +9,7 @@ import javaScriptCompressors from "./javaScriptCompressors"
 import zipCompressors from "./zipCompressors"
 import WriteFileBuildStage from "./writeFileBuildStage"
 import JavaScriptCombineBuildStage from "./javaScriptCombineBuildStage"
+import JavaScriptParseGeneratedBuildStage from "./javaScriptParseGeneratedBuildStage";
 
 class HtmlGeneratorBuildStage extends BuildStage {
   constructor(parent, name, javaScriptCombiner) {
@@ -34,6 +35,12 @@ export default class GameBuildStage extends WatchableBuildStage {
       []
     )
 
+    const parseMetadata = new JavaScriptParseGeneratedBuildStage(this, `parseMetadata`, [metadata], `metadata.js`, () => `
+      var beatsPerMinute = ${metadata.json.timing.beatsPerMinute}
+      var ticksPerBeat = ${metadata.json.timing.ticksPerBeat}
+      var beatsPerBar = ${metadata.json.timing.beatsPerMinute}
+    `)
+
     this.watch(path.join(`games`, name, `metadata.json`), metadata, null)
 
     const createSrcDirectory = new CreateDirectoryBuildStage(this, `createSrcDirectory`, () => [`games`, name, `src`], [])
@@ -44,7 +51,7 @@ export default class GameBuildStage extends WatchableBuildStage {
     const htmlGeneratorInstances = []
 
     for (const javaScriptCompressor in javaScriptCompressors) {
-      const combiner = new JavaScriptCombineBuildStage(this, javaScriptCompressor, [engine, javaScriptParse])
+      const combiner = new JavaScriptCombineBuildStage(this, javaScriptCompressor, [parseMetadata, engine, javaScriptParse])
       const htmlGenerator = new HtmlGeneratorBuildStage(this, `generateHtmlFrom${javaScriptCompressor.slice(0, 1).toUpperCase()}${javaScriptCompressor.slice(1)}`, combiner)
       htmlGeneratorInstances.push(htmlGenerator)
       for (const zipCompressor in zipCompressors) {

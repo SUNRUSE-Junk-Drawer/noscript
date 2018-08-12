@@ -5,5 +5,10 @@
   "productName": "Js13kGames Template",
   "companyId": "Sunruse",
   "companyName": "SUNRUSE",
-  "description": "Demonstrates an example \"game\" created using Js13kGames Template."
+  "description": "Demonstrates an example \"game\" created using Js13kGames Template.",
+  "timing": {
+    "beatsPerMinute": 140,
+    "ticksPerBeat": 16,
+    "beatsPerBar": 4
+  }
 }

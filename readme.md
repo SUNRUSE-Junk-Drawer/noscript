@@ -35,6 +35,21 @@ game.  This includes:
   be shown to the user.</dd>
   <dt>description</dt>
   <dd>A description of the application, as would be shown to the user.</dd>
+  <dt>timing.beatsPerMinute</dt>
+  <dd>
+  The number of beats per minute of the timing system.
+  The "beat" function is executed once per beat.
+  </dd>
+  <dt>timing.ticksPerBeat</dt>
+  <dd>
+  The number of ticks per beat of the timing system.
+  This should be used by your game logic (i.e. physics).
+  </dd>
+  <dt>timing.beatsPerBar</dt>
+  <dd>
+  The number of beats per bar of the timing system.
+  This should be used by your procedural music.
+  </dd>
 </dl>
 
 ## Building
