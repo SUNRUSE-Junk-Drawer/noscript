@@ -1,7 +1,27 @@
+import BuildStage from "./buildStage"
 import FileSearchBuildStage from "./fileSearchBuildStage"
 import GroupBuildStage from "./groupBuildStage"
 import ReadTextBuildStage from "./readTextBuildStage"
 import javaScriptCompressors from "./javaScriptCompressors"
+
+class ParseBuildStage extends BuildStage {
+  constructor(parent, javaScriptCompressor, read) {
+    super(parent, javaScriptCompressor, [read], false)
+    this.javaScriptCompressor = javaScriptCompressor
+    this.read = read
+  }
+
+  performStart() {
+    javaScriptCompressors[this.javaScriptCompressor].parse(
+      this.read.text,
+      parsed => {
+        this.parent.parsed[this.javaScriptCompressor] = parsed
+        this.done()
+      },
+      error => this.handle(error)
+    )
+  }
+}
 
 class InstanceBuildStage extends GroupBuildStage {
   constructor(parent, name, dependencies, disabled) {
@@ -12,7 +32,7 @@ class InstanceBuildStage extends GroupBuildStage {
 
     const read = new ReadTextBuildStage(this, `read`, () => [name], [])
     for (const javaScriptCompressor in javaScriptCompressors) {
-      new javaScriptCompressors[javaScriptCompressor].parser(this, read)
+      new ParseBuildStage(this, javaScriptCompressor, read)
     }
   }
 

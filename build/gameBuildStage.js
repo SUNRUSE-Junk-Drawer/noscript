@@ -8,6 +8,7 @@ import JavaScriptParseBuildStage from "./javaScriptParseBuildStage"
 import javaScriptCompressors from "./javaScriptCompressors"
 import zipCompressors from "./zipCompressors"
 import WriteFileBuildStage from "./writeFileBuildStage"
+import JavaScriptCombineBuildStage from "./javaScriptCombineBuildStage"
 
 class HtmlGeneratorBuildStage extends BuildStage {
   constructor(parent, name, javaScriptCombiner) {
@@ -43,7 +44,7 @@ export default class GameBuildStage extends WatchableBuildStage {
     const htmlGeneratorInstances = []
 
     for (const javaScriptCompressor in javaScriptCompressors) {
-      const combiner = new javaScriptCompressors[javaScriptCompressor].combiner(this, [engine, javaScriptParse])
+      const combiner = new JavaScriptCombineBuildStage(this, javaScriptCompressor, [engine, javaScriptParse])
       const htmlGenerator = new HtmlGeneratorBuildStage(this, `generateHtmlFrom${javaScriptCompressor.slice(0, 1).toUpperCase()}${javaScriptCompressor.slice(1)}`, combiner)
       htmlGeneratorInstances.push(htmlGenerator)
       for (const zipCompressor in zipCompressors) {
