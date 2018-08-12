@@ -46,9 +46,4 @@ export default class JavaScriptParseGeneratedBuildStage extends GroupBuildStage 
       new ParseBuildStage(this, javaScriptCompressor, generate, fileName)
     }
   }
-
-  done() {
-    this.log(Object.keys(this.parsed))
-    super.done()
-  }
 }
