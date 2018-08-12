@@ -11,7 +11,7 @@ export default class BuildProcessBuildStage extends WatchableBuildStage {
     this.isOneOff = isOneOff
 
     const engine = new JavaScriptParseBuildStage(this, `engine`, [], false, () => [`engine`])
-    this.watchInstanced(`engine`, engine, null)
+    this.watchInstanced(`engine`, engine, `read`, null)
 
     const games = new FileListBuildStage(
       this,
@@ -21,7 +21,7 @@ export default class BuildProcessBuildStage extends WatchableBuildStage {
       instanceName => new GameBuildStage(games, instanceName, engine),
       () => [`games`]
     )
-    this.watchInstanced(`games`, games, 0)
+    this.watchInstanced(`games`, games, null, 0)
 
     addGraphsBuildStages(this, games)
 

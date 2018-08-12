@@ -19,13 +19,17 @@ export default class WatchableBuildStage extends GroupBuildStage {
     }
   }
 
-  watchInstanced(path, buildStage, depth) {
+  watchInstanced(path, buildStage, childName, depth) {
     if (!this.oneOff()) {
       this.watches.push(chokidar
         .watch(path, { ignoreInitial: true, depth })
         .on(`error`, error => this.criticalStop(error))
         .on(`all`, (event, path) => {
-          const toStart = buildStage.get([path]) || buildStage
+          const pathToStart = [path]
+          if (childName) {
+            pathToStart.push(childName)
+          }
+          const toStart = buildStage.get(pathToStart) || buildStage
           this.log(`Starting build stage "${toStart.fullName}" affected by ${event} of "${path}"...`)
           toStart.start()
         })

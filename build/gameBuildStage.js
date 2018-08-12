@@ -99,6 +99,6 @@ export default class GameBuildStage extends WatchableBuildStage {
         return best.zipped
       }, [createDistDirectory])
 
-    this.watchInstanced(path.join(`games`, name, `src`), javaScriptParse, null)
+    this.watchInstanced(path.join(`games`, name, `src`), javaScriptParse, `read`, null)
   }
 }
