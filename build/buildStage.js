@@ -66,38 +66,6 @@ export default class BuildStage {
     console.log(`${this.fullName} - ${message}`)
   }
 
-  startButDoNotRestart() {
-    switch (this.state) {
-      case `done`:
-        this.log(`Start requested; discarding previous result and invalidating dependents...`)
-        this.state = `blocked`
-        this.dependents.forEach(dependent => dependent.invalidate(1))
-        if (this.parent) {
-          this.parent.startButDoNotRestart()
-        } else {
-          handleBuildStageChanges()
-        }
-        break
-      case `failed`:
-        this.log(`Start requested; restarting following previous failure...`)
-        this.state = `blocked`
-        this.dependents.forEach(dependent => dependent.invalidate(1))
-        if (this.parent) {
-          this.parent.startButDoNotRestart()
-        } else {
-          handleBuildStageChanges()
-        }
-        break
-      case `running`:
-      case `blocked`:
-      case `restarting`:
-      case `disabled`:
-        break
-      default:
-        this.criticalStop(`State "${this.state}" is not implemented by "startButDoNotRestart".`)
-    }
-  }
-
   start() {
     switch (this.state) {
       case `running`:
@@ -108,21 +76,11 @@ export default class BuildStage {
         this.log(`Start requested; discarding previous result and invalidating dependents...`)
         this.state = `blocked`
         this.dependents.forEach(dependent => dependent.invalidate(1))
-        if (this.parent) {
-          this.parent.startButDoNotRestart()
-        } else {
-          handleBuildStageChanges()
-        }
         break
       case `failed`:
         this.log(`Start requested; restarting following previous failure...`)
         this.state = `blocked`
         this.dependents.forEach(dependent => dependent.invalidate(1))
-        if (this.parent) {
-          this.parent.startButDoNotRestart()
-        } else {
-          handleBuildStageChanges()
-        }
         break
       case `blocked`:
       case `restarting`:
@@ -130,6 +88,11 @@ export default class BuildStage {
         break
       default:
         this.criticalStop(`State "${this.state}" is not implemented by "start".`)
+    }
+    if (this.parent) {
+      this.parent.start()
+    } else {
+      handleBuildStageChanges()
     }
   }
 
