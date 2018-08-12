@@ -40,10 +40,12 @@ export default class GameBuildStage extends WatchableBuildStage {
     const javaScriptParse = new JavaScriptParseBuildStage(this, `src`, [createSrcDirectory], false, () => [`games`, name, `src`])
 
     const zipCompressorInstances = []
+    const htmlGeneratorInstances = []
 
     for (const javaScriptCompressor in javaScriptCompressors) {
       const combiner = new javaScriptCompressors[javaScriptCompressor].combiner(this, [engine, javaScriptParse])
       const htmlGenerator = new HtmlGeneratorBuildStage(this, `generateHtmlFrom${javaScriptCompressor.slice(0, 1).toUpperCase()}${javaScriptCompressor.slice(1)}`, combiner)
+      htmlGeneratorInstances.push(htmlGenerator)
       for (const zipCompressor in zipCompressors) {
         zipCompressorInstances.push(new zipCompressors[zipCompressor](this, javaScriptCompressor, htmlGenerator))
       }
@@ -62,6 +64,24 @@ export default class GameBuildStage extends WatchableBuildStage {
       () => [`games`, name, `dist`],
       [deleteDistDirectory]
     )
+
+    if (!this.oneOff()) {
+      new WriteFileBuildStage(
+        this,
+        `writeHtml`,
+        () => [`games`, name, `dist`, `index.html`],
+        () => {
+          let best = htmlGeneratorInstances[0]
+          htmlGeneratorInstances.forEach(htmlGeneratorInstance => {
+            if (htmlGeneratorInstance.html.length > best.html.length) {
+              return
+            }
+            best = htmlGeneratorInstance
+          })
+          this.log(`Selected "${best.name}", writing...`)
+          return best.html
+        }, [createDistDirectory])
+    }
 
     new WriteFileBuildStage(
       this,
