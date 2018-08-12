@@ -122,6 +122,10 @@ export default class BuildStage {
       default:
         this.criticalStop(`State "${this.state}" is not implemented by "invalidate".`)
     }
+
+    if (this.parent) {
+      this.parent.invalidate(levels + 1)
+    }
   }
 
   blocksDependents() {
