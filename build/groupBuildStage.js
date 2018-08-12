@@ -37,7 +37,7 @@ export default class GroupBuildStage extends BuildStage {
               return false
 
             case `blocked`:
-              return !child.canStart()
+              return !child.couldStart()
 
             case `done`:
             case `disabled`:

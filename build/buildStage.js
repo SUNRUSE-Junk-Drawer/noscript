@@ -219,6 +219,28 @@ export default class BuildStage {
     }
   }
 
+  couldStart() {
+    switch (this.state) {
+      case `blocked`:
+        if (this.dependencies.some(dependency => !dependency.couldStart())) {
+          return false
+        }
+        return true
+
+      case `done`:
+      case `running`:
+      case `restarting`:
+        return true
+
+      case `failed`:
+      case `disabled`:
+        return false
+
+      default:
+        this.criticalStop(`State "${this.state}" is not implemented by "couldStart".`)
+    }
+  }
+
   canStart() {
     if (this.dependencies.some(dependency => dependency.blocksDependents())) {
       return false
