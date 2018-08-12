@@ -51,7 +51,7 @@ export default class GroupBuildStage extends BuildStage {
           return
         }
 
-        this.handle(this.children.some(child => child.state == `failed`) && `One or more children failed to process.`, () => this.done())
+        this.handle(this.children.some(child => child.state != `done`) && `One or more children failed to process.`, () => this.done())
         break
 
       case `blocked`:
