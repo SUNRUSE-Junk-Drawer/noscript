@@ -12,7 +12,7 @@ deploy:
   api_key:
     secure: cuVC6ihnS7B7rAjf9ro8DTMNzsWVp3sbUk3dtdOz61S2Eae9Ekeih/aGpgt+YYddaQX3M4iZqN/bWd/eqx/d1jwqjw9JJ6HyTuNULOElcluCp4eQxcJfUp6A0NWP1E9QRv+9qx8HeHmbg8uj3sh/SfI/4m0qtbumWOOXPcwPbY+GSBgg+LeewMUXI7LFKL9Ot4byJnLeDqN59FzaPPUzKrIbWRkZplH13SliBxJTpIm3ao+I6N5WQmPoEIgheJRr3GLvI9ixMqwmr0pCtqPTLJbGPZHu/87PNTm5fMZxca5nTr7uMlr3LGC+S5OrQnSVtBWp+h9ktlz072kigTSOPUUg3/ro1idMTaXjXcMizRwgvqhevQTegVUooZbuVSFz1FM2SR1jZL3H8lETlbJHpnaUfWPQlEuBCLJptiYHYeRX9xCecb/JSCENYzHo6zm1146WvQ0SHPEPuaHsKZCM8wjEUYSuFCYK58gcbrrsgtRtOklsq5dfvDc20gbTWU28jWJPa1QA5aCNwunFDkoUj+ePPdw6iV58SmU6klgt+6b/znoR8eyUqxcv17JTeIVs4ChybEu2fA3QsIf+HPCqQhoiGodbwKq60fa38nNQLXFAOeYK+XCYGNiQa70CJzLAjFW4SI5JCrtyJQr3/vloSzuKXaLh6xWPH4DY0wlvaqc=
   file_glob: true
-  file: games/**/dist/*
+  file: games/*/dist/*
   skip_cleanup: true
   on:
     tags: true
