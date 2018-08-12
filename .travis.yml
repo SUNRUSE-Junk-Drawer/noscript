@@ -2,6 +2,9 @@ language: node_js
 sudo: false
 node_js:
   - "node"
+cache:
+  directories:
+    - node_modules
 script:
   - npm run-script oneOff
 deploy:
