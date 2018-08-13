@@ -1,4 +1,5 @@
 import * as path from "path"
+import * as htmlMinifier from "html-minifier"
 import BuildStage from "./buildStage"
 import ReadJsonBuildStage from "./readJsonBuildStage"
 import DeleteDirectoryBuildStage from "./deleteDirectoryBuildStage"
@@ -18,7 +19,21 @@ class HtmlGeneratorBuildStage extends BuildStage {
   }
 
   performStart() {
-    this.html = `<script>${this.javaScriptCombiner.combined}</script>`
+    this.html = htmlMinifier.minify(`
+      <script>${this.javaScriptCombiner.combined}</script>
+    `, {
+        collapseInlineTagWhitespace: true,
+        collapseWhitespace: true,
+        removeAttributeQuotes: true,
+        removeComments: true,
+        removeEmptyAttributes: true,
+        removeEmptyElements: true,
+        removeOptionalTags: true,
+        removeRedundantAttributes: true,
+        removeScriptTypeAttributes: true,
+        removeStyleLinkTypeAttributes: true,
+        removeTagWhitespace: true
+      })
     this.done()
   }
 }
