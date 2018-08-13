@@ -72,7 +72,6 @@ export default class InstancedBuildStage extends GroupBuildStage {
 
   done() {
     if (this.subState != `waitingForChildren`) {
-      console.log(new Error().stack)
       this.criticalStop(`Sub-state "${this.subState}" is not implemented by "done".`)
     }
 
