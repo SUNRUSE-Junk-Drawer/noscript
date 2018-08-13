@@ -1,4 +1,5 @@
 import * as uglifyJs from "uglify-js"
+import uglifyJsDomProps from "uglify-js/tools/domprops"
 
 export default {
   uglifyJs: {
@@ -30,7 +31,10 @@ export default {
 
       const minified = uglifyJs.minify(combined, {
         mangle: {
-          toplevel: true
+          toplevel: true,
+          properties: {
+            reserved: uglifyJsDomProps
+          }
         },
         toplevel: true,
         output: {
