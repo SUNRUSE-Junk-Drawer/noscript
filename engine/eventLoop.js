@@ -23,6 +23,9 @@ function eventLoop() {
     time += secondsPerTick
   }
 
+  prepareFrame()
+  render()
+
   requestAnimationFrame(eventLoop)
 }
 

@@ -20,6 +20,7 @@ class HtmlGeneratorBuildStage extends BuildStage {
 
   performStart() {
     this.html = htmlMinifier.minify(`
+      <canvas id="c" style="position: fixed; left: 0; top: 0; width: 100%; height: 100%" />
       <script>${this.javaScriptCombiner.combined}</script>
     `, {
         caseSensitive: false,
@@ -90,6 +91,7 @@ export default class GameBuildStage extends WatchableBuildStage {
         () => [
           [`metadata.js`],
           [`engine`, `audio`, `context.js`],
+          [`engine`, `video`, `context.js`],
           [`engine`, `audio`, `whiteNoise.js`]
         ]
       )

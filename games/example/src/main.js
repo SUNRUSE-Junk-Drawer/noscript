@@ -21,3 +21,6 @@ function bar() {
     if (i != 2.75 && (i != 3.75 || !(numberOfBars % 2))) closedHiHat(i)
   }
 }
+
+function render() {
+}
