@@ -51,7 +51,16 @@ export default class GameBuildStage extends WatchableBuildStage {
     const htmlGeneratorInstances = []
 
     for (const javaScriptCompressor in javaScriptCompressors) {
-      const combiner = new JavaScriptCombineBuildStage(this, javaScriptCompressor, [parseMetadata, engine, javaScriptParse])
+      const combiner = new JavaScriptCombineBuildStage(
+        this,
+        javaScriptCompressor,
+        [parseMetadata, engine, javaScriptParse],
+        () => [
+          [`metadata.js`],
+          [`engine`, `audio`, `context.js`],
+          [`engine`, `audio`, `whiteNoise.js`]
+        ]
+      )
       const htmlGenerator = new HtmlGeneratorBuildStage(this, `generateHtmlFrom${javaScriptCompressor.slice(0, 1).toUpperCase()}${javaScriptCompressor.slice(1)}`, combiner)
       htmlGeneratorInstances.push(htmlGenerator)
       for (const zipCompressor in zipCompressors) {
