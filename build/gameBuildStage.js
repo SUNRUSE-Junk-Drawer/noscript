@@ -38,7 +38,7 @@ export default class GameBuildStage extends WatchableBuildStage {
     const parseMetadata = new JavaScriptParseGeneratedBuildStage(this, `parseMetadata`, [metadata], `metadata.js`, () => `
       var beatsPerMinute = ${metadata.json.timing.beatsPerMinute}
       var ticksPerBeat = ${metadata.json.timing.ticksPerBeat}
-      var beatsPerBar = ${metadata.json.timing.beatsPerMinute}
+      var beatsPerBar = ${metadata.json.timing.beatsPerBar}
     `)
 
     this.watch(path.join(`games`, name, `metadata.json`), metadata, null)
