@@ -50,6 +50,10 @@ game.  This includes:
   The number of beats per bar of the timing system.
   This should be used by your procedural music.
   </dd>
+  <dt>targetAspectRatio.horizontally</dt>
+  <dd>The horizontal of the target aspect ratio; the 16 in 16:9.</dd>
+  <dt>targetAspectRatio.vertically</dt>
+  <dd>The vertical of the target aspect ratio; the 9 in 16:9.</dd>
 </dl>
 
 ## Building

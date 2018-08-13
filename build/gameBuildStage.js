@@ -72,6 +72,8 @@ export default class GameBuildStage extends WatchableBuildStage {
       var beatsPerMinute = ${metadata.json.timing.beatsPerMinute}
       var ticksPerBeat = ${metadata.json.timing.ticksPerBeat}
       var beatsPerBar = ${metadata.json.timing.beatsPerBar}
+      var targetAspectRatioHorizontally = ${metadata.json.targetAspectRatio.horizontally}
+      var targetAspectRatioVertically = ${metadata.json.targetAspectRatio.vertically}
     `)
 
     this.watch(path.join(`games`, name, `metadata.json`), metadata, null)
