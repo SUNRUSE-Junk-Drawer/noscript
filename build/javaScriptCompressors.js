@@ -33,7 +33,7 @@ export default {
         mangle: {
           toplevel: true,
           properties: {
-            reserved: uglifyJsDomProps
+            reserved: uglifyJsDomProps.concat(`pan`)
           }
         },
         toplevel: true,
