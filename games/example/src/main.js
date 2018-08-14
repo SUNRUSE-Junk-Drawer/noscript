@@ -24,6 +24,16 @@ function bar() {
   }
 
   pad(0, minorScale, numberOfBars % 4 > 1 ? -3 : 0, beatsPerBar, 4)
+
+  bass(0.5, 0)
+  bassOff(1)
+  bass(1.5, 0)
+  bassOff(2)
+
+  if (numberOfBars % 2) {
+    bass(3.5, numberOfBars % 4 == 3 ? 3 : 4)
+    bassOff(4)
+  }
 }
 
 var color = parameter(3)
