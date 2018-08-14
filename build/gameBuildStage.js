@@ -92,6 +92,7 @@ export default class GameBuildStage extends WatchableBuildStage {
         [parseMetadata, engine, javaScriptParse],
         () => [
           [`metadata.js`],
+          [`engine`, `video`, `webGlConstants.js`],
           [`engine`, `audio`, `context.js`],
           [`engine`, `video`, `context.js`],
           [`engine`, `audio`, `whiteNoise.js`]
