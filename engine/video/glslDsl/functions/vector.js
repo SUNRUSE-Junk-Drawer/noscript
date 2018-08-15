@@ -9,6 +9,7 @@ function emitJavaScriptComponentSum(a) {
   }
   javaScript += ";"
   return {
+    // todo this probably isn't expected downstream
     javaScriptName: name,
     mangleableAxes: 1
   }
@@ -49,7 +50,7 @@ function distance(a, b) {
 function normal(a) {
   return {
     javaScriptName: emitJavaScriptBinary(a, emitJavaScriptLength(a), "/"),
-    glslName: emitGlslUnaryOrFunctionWhichPerformsAComponentSum("normal", a),
+    glslName: emitGlslUnaryOrFunction("normal", a),
     mangleableAxes: 1
   }
 }
