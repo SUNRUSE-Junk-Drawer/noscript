@@ -32,4 +32,9 @@ function render() {
   uniformFloat(starfieldLocationNoise, 0.8)
   uniformVec3(starfieldColor, 2, 2, 2)
   fillBackground()
+
+  alphaBlending()
+  useProgram(nebulaProgram)
+  uniformVec2(nebulaScroll, elapsed, 0)
+  fillBackground()
 }
