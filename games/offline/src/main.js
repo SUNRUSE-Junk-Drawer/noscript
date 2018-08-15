@@ -37,4 +37,7 @@ function render() {
   useProgram(nebulaProgram)
   uniformVec2(nebulaScroll, elapsed, 0)
   fillBackground()
+
+  useProgram(vignetteProgram)
+  fillBackground()
 }
