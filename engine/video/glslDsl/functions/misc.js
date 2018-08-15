@@ -51,3 +51,11 @@ function fract(a) {
     mangleableAxes: a.mangleableAxes
   }
 }
+
+function clamp(a, low, high) {
+  return {
+    javaScriptName: emitJavaScriptUnaryOrFunction("Math.max", emitJavaScriptUnaryOrFunction("Math.min", a, high), low),
+    glslName: emitGlslUnaryOrFunction("clamp", a, low, high),
+    mangleableAxes: combinedAxes(a, low, high)
+  }
+}
