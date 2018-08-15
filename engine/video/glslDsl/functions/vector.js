@@ -41,7 +41,7 @@ function length(a) {
 function distance(a, b) {
   return {
     javaScriptName: emitJavaScriptLength(emitJavaScriptBinary(a, b, "-")),
-    glslName: emitGlslUnaryOrFunctionWhichPerformsAComponentSum("distance"),
+    glslName: emitGlslUnaryOrFunctionWhichPerformsAComponentSum("distance", a, b),
     mangleableAxes: 1
   }
 }
@@ -49,7 +49,7 @@ function distance(a, b) {
 function normal(a) {
   return {
     javaScriptName: emitJavaScriptBinary(a, emitJavaScriptLength(a), "/"),
-    glslName: emitGlslUnaryOrFunctionWhichPerformsAComponentSum("normal"),
+    glslName: emitGlslUnaryOrFunctionWhichPerformsAComponentSum("normal", a),
     mangleableAxes: 1
   }
 }
