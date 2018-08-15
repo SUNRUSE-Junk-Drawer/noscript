@@ -1,0 +1,18 @@
+{
+  "applicationId": "Prograde",
+  "applicationName": "Prograde",
+  "productId": "Offline",
+  "productName": "Offline",
+  "companyId": "Sunruse",
+  "companyName": "SUNRUSE",
+  "description": "A Hydride game.",
+  "timing": {
+    "beatsPerMinute": 140,
+    "ticksPerBeat": 16,
+    "beatsPerBar": 4
+  },
+  "targetAspectRatio": {
+    "horizontally": 16,
+    "vertically": 9
+  }
+}
