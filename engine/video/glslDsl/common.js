@@ -26,8 +26,13 @@ function parameter(axes) {
   return newParameter
 }
 
-function combinedAxes(a, b) {
-  return Math.max(a.mangleableAxes, b.mangleableAxes)
+function combinedAxes() {
+  var axes = 1
+  var args = arguments
+  for (var i = 0; i < args.length; i++) {
+    axes = Math.max(axes, args[i].mangleableAxes)
+  }
+  return axes
 }
 
 function emitBinary(a, b, symbol) {
