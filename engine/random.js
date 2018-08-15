@@ -1,8 +1,9 @@
 // This algorithm is based on http://glslsandbox.com/e#32326.0.
-function random(a, seed) {
+function random(a, seed, period) {
   function hash(b) {
     var scaled = multiply(b, seed)
-    return fract(multiply(scaled, fract(scaled)))
+    var wrapped = multiply(fract(divide(scaled, period)), period)
+    return fract(multiply(wrapped, fract(wrapped)))
   }
   switch (a.mangleableAxes) {
     case 1:
