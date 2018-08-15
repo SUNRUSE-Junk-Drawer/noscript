@@ -47,10 +47,10 @@ function distance(a, b) {
   }
 }
 
-function normal(a) {
+function normalize(a) {
   return {
     javaScriptName: emitJavaScriptBinary(a, emitJavaScriptLength(a), "/"),
-    glslName: emitGlslUnaryOrFunction("normal", a),
+    glslName: emitGlslUnaryOrFunction("normalize", a),
     mangleableAxes: a.mangleableAxes
   }
 }
