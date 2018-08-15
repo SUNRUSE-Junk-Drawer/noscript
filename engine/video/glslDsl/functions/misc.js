@@ -59,3 +59,19 @@ function clamp(a, low, high) {
     mangleableAxes: combinedAxes(a, low, high)
   }
 }
+
+function mix(a, b, alpha) {
+  return {
+    javaScriptName: emitJavaScriptBinary(
+      a,
+      emitJavaScriptBinary(
+        emitJavaScriptBinary(b, a, "-"),
+        alpha,
+        "*"
+      ),
+      "+"
+    ),
+    glslName: emitGlslUnaryOrFunction("mix", a, b, alpha),
+    mangleableAxes: combinedAxes(a, b, alpha)
+  }
+}
