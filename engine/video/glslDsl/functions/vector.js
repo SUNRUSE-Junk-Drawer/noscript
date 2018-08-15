@@ -51,6 +51,6 @@ function normal(a) {
   return {
     javaScriptName: emitJavaScriptBinary(a, emitJavaScriptLength(a), "/"),
     glslName: emitGlslUnaryOrFunction("normal", a),
-    mangleableAxes: 1
+    mangleableAxes: a.mangleableAxes
   }
 }
