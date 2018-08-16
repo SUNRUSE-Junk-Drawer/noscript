@@ -22,6 +22,14 @@ function atan(a) {
   return emitMathFunction("atan", a)
 }
 
+function atan2(a, b) {
+  return {
+    javaScriptName: emitJavaScriptUnaryOrFunction("Math.atan2", a, b),
+    glslName: emitGlslUnaryOrFunctionWhichPerformsAComponentSum("atan", a, b),
+    mangleableAxes: 1
+  }
+}
+
 function sinh(a) {
   return emitMathFunction("sinh", a)
 }
