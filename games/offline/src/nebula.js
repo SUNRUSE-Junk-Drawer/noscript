@@ -4,11 +4,12 @@ var nebulaProgram
 
 (function () {
   function sampleNebulaAt(location) {
-    var density = float(-1)
+    var density = float(-0.875)
     function addLayer(scale, amplitude, seed, parallax) {
       var scaled = multiply(add(location, multiply(nebulaScroll, parallax)), scale)
       var tileId = floor(scaled)
       var positionInTile = add(multiply(sin(add(multiply(fract(scaled), float(Math.PI)), float(Math.PI * 1.5))), float(0.5)), float(0.5))
+      //var ramp = add()
 
       var mixedA = mix(
         random(tileId, seed, float(1000)),
@@ -41,8 +42,8 @@ var nebulaProgram
   }
 
   var coreDensity = sampleNebulaAt(uv)
-  var densityToRight = sampleNebulaAt(add(uv, vector(float(-0.01), float(0))))
-  var densityAbove = sampleNebulaAt(add(uv, vector(float(0), float(-0.01))))
+  var densityToRight = sampleNebulaAt(add(uv, vector(float(-0.1), float(0))))
+  var densityAbove = sampleNebulaAt(add(uv, vector(float(0), float(-0.1))))
 
   var sampleDirection = normalize(
     vector(
@@ -51,7 +52,7 @@ var nebulaProgram
     )
   )
 
-  var otherDensity = sampleNebulaAt(add(uv, multiply(sampleDirection, float(3))))
+  var otherDensity = sampleNebulaAt(add(uv, multiply(sampleDirection, float(0.5))))
 
   var densityLowLow = vector(float(0.4), float(0.1), float(0.5))
   var densityLowHigh = vector(float(0.2), float(0.4), float(0.9))
@@ -63,6 +64,7 @@ var nebulaProgram
   var blendB = mix(densityLowHigh, densityHighHigh, coreDensity)
 
   nebulaProgram = compileGlsl(
+    //vector(add(multiply(sampleDirection, float(0.5)), float(0.5)), float(0), coreDensity)
     vector(mix(blendA, blendB, otherDensity), coreDensity)
   )
 })()
