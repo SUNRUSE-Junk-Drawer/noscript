@@ -35,6 +35,12 @@ function render() {
   uniformVec2(nebulaScroll, elapsed, 0)
   fillBackground()
 
+  additiveBlending()
+  useProgram(protostarProgram)
+  uniformFloat(protostarElapsed, elapsed)
+  fillBackground()
+
+  alphaBlending()
   useProgram(vignetteProgram)
   fillBackground()
 }
