@@ -83,3 +83,41 @@ function mix(a, b, alpha) {
     mangleableAxes: combinedAxes(a, b, alpha)
   }
 }
+
+function smoothstep(a, b, alpha) {
+  var javaScriptCorrectedAlpha =
+    emitJavaScriptUnaryOrFunction(
+      "Math.max",
+      float(0),
+      emitJavaScriptUnaryOrFunction(
+        "Math.min",
+        float(1),
+        emitJavaScriptBinary(
+          emitJavaScriptBinary(alpha, a, "/"),
+          emitJavaScriptBinary(b, a, "/")
+        )
+      )
+    )
+
+  return {
+    javaScriptName: emitJavaScriptBinary(
+      javaScriptCorrectedAlpha,
+      emitJavaScriptBinary(
+        javaScriptCorrectedAlpha,
+        emitJavaScriptBinary(
+          float(3),
+          emitJavaScriptBinary(
+            float(2),
+            javaScriptCorrectedAlpha,
+            "*"
+          ),
+          "-"
+        ),
+        "*"
+      ),
+      "*"
+    ),
+    glslName: emitGlslUnaryOrFunction("smoothstep", a, b, alpha),
+    mangleableAxes: combinedAxes(a, b, alpha)
+  }
+}
