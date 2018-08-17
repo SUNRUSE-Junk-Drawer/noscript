@@ -17,25 +17,22 @@ var nebulaProgram
       var upperLeft = random(vector(x(tileId), y(nextTileId)), seed, float(1000))
       var upperRight = random(vector(x(nextTileId), y(nextTileId)), seed, float(1000))
 
-      var positionInTileX = x(positionInTile)
-      var positionInTileY = y(positionInTile)
-
       if (modifyRamp) {
         var ramp = smoothstep(float(1), float(0), abs(subtract(float(1), multiply(fract(scaled), float(2)))))
 
-        var xRamp = mix(
-          subtract(lowerLeft, lowerRight),
-          subtract(upperLeft, upperRight),
-          positionInTileY
+        var appliedRamp = mix(
+          subtract(
+            vector(upperLeft, lowerRight),
+            vector(lowerLeft, lowerLeft)
+          ),
+          subtract(
+            vector(upperRight, upperRight),
+            vector(lowerRight, upperLeft)
+          ),
+          positionInTile
         )
 
-        var yRamp = mix(
-          subtract(lowerLeft, upperLeft),
-          subtract(lowerRight, upperRight),
-          positionInTileX
-        )
-
-        rampSum = add(rampSum, multiply(amplitude, multiply(ramp, vector(xRamp, yRamp))))
+        rampSum = subtract(rampSum, multiply(amplitude, multiply(ramp, vector(y(appliedRamp), x(appliedRamp)))))
       }
 
       var mixedA = mix(
