@@ -21,6 +21,9 @@ function createShader(type, source) {
   var shader = gl.createShader(type)
   gl.shaderSource(shader, "precision mediump float;" + source)
   gl.compileShader(shader)
+  if (!gl.getShaderParameter(shader, gl.COMPILE_STATUS)) {
+    throw gl.getShaderInfoLog(shader) + "\n\nSource:\n" + source
+  }
   return shader
 }
 
