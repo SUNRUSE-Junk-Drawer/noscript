@@ -52,6 +52,14 @@ function fract(a) {
   }
 }
 
+function mod(a, b) {
+  return {
+    javaScriptName: emitJavaScriptBinary(a, emitJavaScriptBinary(b, emitJavaScriptUnaryOrFunction("Math.floor", emitJavaScriptBinary(a, b, "/")))),
+    glslName: emitGlslUnaryOrFunction("mod", a, b),
+    mangleableAxes: combinedAxes(a, b)
+  }
+}
+
 function clamp(a, low, high) {
   return {
     javaScriptName: emitJavaScriptUnaryOrFunction("Math.max", emitJavaScriptUnaryOrFunction("Math.min", a, high), low),
