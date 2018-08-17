@@ -9,7 +9,7 @@ var vignetteProgram = compileGlsl(
         divide(
           float(1),
           divide(
-            distance(uv, vector(float(0), float(0))),
+            length(uv),
             float(6)
           )
         ),
