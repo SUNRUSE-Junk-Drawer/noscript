@@ -50,7 +50,8 @@ export default class JavaScriptParseBuildStage extends FileSearchBuildStage {
       dependencies,
       disabled,
       instanceName => new InstanceBuildStage(this, instanceName, [], false),
-      searchPathFactory
+      searchPathFactory,
+      `js`
     )
     this.parsed = {}
   }
