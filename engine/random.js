@@ -2,7 +2,7 @@
 function random(a, seed, period) {
   function hash(b) {
     var scaled = multiply(b, seed)
-    var wrapped = multiply(fract(divide(scaled, period)), period)
+    var wrapped = mod(scaled, period)
     return fract(multiply(wrapped, fract(wrapped)))
   }
   switch (a.mangleableAxes) {
