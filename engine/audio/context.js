@@ -1,2 +1,2 @@
-var audioContext = new AudioContext()
+var audioContext = new (window.AudioContext || webkitAudioContext)()
 var sampleRate = audioContext.sampleRate
