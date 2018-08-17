@@ -9,12 +9,13 @@ var nebulaProgram
     function addLayer(scale, amplitude, seed, parallax) {
       var scaled = multiply(add(location, multiply(nebulaScroll, parallax)), scale)
       var tileId = floor(scaled)
+      var nextTileId = ceil(scaled)
       var positionInTile = add(multiply(sin(add(multiply(fract(scaled), float(Math.PI)), float(Math.PI * 1.5))), float(0.5)), float(0.5))
 
       var lowerLeft = random(tileId, seed, float(1000))
-      var lowerRight = random(add(tileId, vector(float(1), float(0))), seed, float(1000))
-      var upperLeft = random(add(tileId, vector(float(0), float(1))), seed, float(1000))
-      var upperRight = random(add(tileId, vector(float(1), float(1))), seed, float(1000))
+      var lowerRight = random(vector(x(nextTileId), y(tileId)), seed, float(1000))
+      var upperLeft = random(vector(x(tileId), y(nextTileId)), seed, float(1000))
+      var upperRight = random(vector(x(nextTileId), y(nextTileId)), seed, float(1000))
 
       var positionInTileX = x(positionInTile)
       var positionInTileY = y(positionInTile)
