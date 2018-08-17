@@ -10,7 +10,7 @@ var nebulaProgram
       var scaled = multiply(add(location, multiply(nebulaScroll, parallax)), scale)
       var tileId = floor(scaled)
       var nextTileId = ceil(scaled)
-      var positionInTile = add(multiply(sin(add(multiply(fract(scaled), float(Math.PI)), float(Math.PI * 1.5))), float(0.5)), float(0.5))
+      var positionInTile = smoothstep(float(0), float(1), fract(scaled))
 
       var lowerLeft = random(tileId, seed, float(1000))
       var lowerRight = random(vector(x(nextTileId), y(tileId)), seed, float(1000))
@@ -21,7 +21,7 @@ var nebulaProgram
       var positionInTileY = y(positionInTile)
 
       if (modifyRamp) {
-        var ramp = add(divide(sin(multiply(add(multiply(fract(scaled), float(2)), float(1.5)), float(Math.PI))), float(2.0)), float(0.5))
+        var ramp = smoothstep(float(1), float(0), abs(subtract(float(1), multiply(fract(scaled), float(2)))))
 
         var xRamp = mix(
           subtract(lowerLeft, lowerRight),
