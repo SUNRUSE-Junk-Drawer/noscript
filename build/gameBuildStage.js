@@ -5,7 +5,6 @@ import WatchableBuildStage from "./watchableBuildStage"
 export default class GameBuildStage extends WatchableBuildStage {
   constructor(parent, name) {
     super(parent, name, [], false)
-    this.watches = []
 
     const deleteDistDirectory = new DeleteDirectoryBuildStage(
       this,
