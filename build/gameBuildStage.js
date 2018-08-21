@@ -4,6 +4,7 @@ import CreateDirectoryBuildStage from "./createDirectoryBuildStage"
 import ReadTextBuildStage from "./readTextBuildStage"
 import WriteFileBuildStage from "./writeFileBuildStage"
 import WatchableBuildStage from "./watchableBuildStage"
+import AnalyzeHtmlBuildStage from "./analyzeHtmlBuildStage"
 
 export default class GameBuildStage extends WatchableBuildStage {
   constructor(parent, name) {
@@ -29,7 +30,7 @@ export default class GameBuildStage extends WatchableBuildStage {
       () => [`games`, name, `dist`],
       [deleteDistDirectory]
     )
-    
+
     const readIndexHtml = new ReadTextBuildStage(
       this,
       `readIndexHtml`,
@@ -37,13 +38,20 @@ export default class GameBuildStage extends WatchableBuildStage {
       [createSrcDirectory]
     )
     this.watch(path.join(`games`, name, `src`, `index.html`), readIndexHtml, null)
-    
+
+    const analyzeHtml = new AnalyzeHtmlBuildStage(
+      this,
+      `analyzeIndexHtml`,
+      [readIndexHtml],
+      () => readIndexHtml.text
+    )
+
     if (!this.oneOff()) {
       new WriteFileBuildStage(
-        this, 
-        `writeIndexHtml`, 
-        () => [`games`, name, `dist`, `index.html`], 
-        () => readIndexHtml.text, 
+        this,
+        `writeIndexHtml`,
+        () => [`games`, name, `dist`, `index.html`],
+        () => readIndexHtml.text,
         [createDistDirectory, readIndexHtml]
       )
     }
