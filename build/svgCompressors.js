@@ -90,6 +90,6 @@ export default {
     })
       .optimize(svg)
       .catch(e => onError(e))
-      .then(onSuccess)
+      .then(result => onSuccess(result.data))
   }
 }
