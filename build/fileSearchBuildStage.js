@@ -6,7 +6,7 @@ export default class FileSearchBuildStage extends InstancedBuildStage {
   constructor(parent, name, dependencies, disabled, instanceFactory, searchPathFactory, extension) {
     super(parent, name, dependencies, disabled, instanceFactory)
     this.searchPathFactory = searchPathFactory
-    this.extension
+    this.extension = extension
   }
 
   getInstanceNames() {
