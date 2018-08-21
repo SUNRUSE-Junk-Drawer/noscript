@@ -10,7 +10,7 @@ export default {
       }
     }).minify(css)
 
-    if (minified.errors) {
+    if (minified.errors.length) {
       onError(minified.errors)
     } else {
       onSuccess(minified.styles)
