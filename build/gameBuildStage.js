@@ -33,10 +33,10 @@ export default class GameBuildStage extends WatchableBuildStage {
     const readIndexHtml = new ReadTextBuildStage(
       this,
       `readIndexHtml`,
-      () => [`games`, name, `index.html`],
-      []
+      () => [`games`, name, `src`, `index.html`],
+      [createSrcDirectory]
     )
-    this.watch(path.join(`games`, name, `index.html`), readIndexHtml, null)
+    this.watch(path.join(`games`, name, `src`, `index.html`), readIndexHtml, null)
     
     if (!this.oneOff()) {
       new WriteFileBuildStage(
