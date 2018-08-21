@@ -10,6 +10,7 @@
     "archiver": "^2.1.1",
     "bl": "^2.0.1",
     "chokidar": "^2.0.4",
+    "clean-css": "^4.2.1",
     "html-minifier": "^3.5.18",
     "mkdirp": "^0.5.1",
     "recursive-readdir": "^2.2.2",
