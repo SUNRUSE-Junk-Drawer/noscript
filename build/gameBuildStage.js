@@ -9,6 +9,13 @@ export default class GameBuildStage extends WatchableBuildStage {
   constructor(parent, name) {
     super(parent, name, [], false)
 
+    const createSrcDirectory = new CreateDirectoryBuildStage(
+      this,
+      `createSrcDirectory`,
+      () => [`games`, name, `src`],
+      []
+    )
+
     const deleteDistDirectory = new DeleteDirectoryBuildStage(
       this,
       `deleteDistDirectory`,
