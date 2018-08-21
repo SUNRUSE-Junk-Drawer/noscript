@@ -1,5 +1,8 @@
+import * as path from "path"
 import DeleteDirectoryBuildStage from "./deleteDirectoryBuildStage"
 import CreateDirectoryBuildStage from "./createDirectoryBuildStage"
+import ReadTextBuildStage from "./readTextBuildStage"
+import WriteFileBuildStage from "./writeFileBuildStage"
 import WatchableBuildStage from "./watchableBuildStage"
 
 export default class GameBuildStage extends WatchableBuildStage {
@@ -19,5 +22,23 @@ export default class GameBuildStage extends WatchableBuildStage {
       () => [`games`, name, `dist`],
       [deleteDistDirectory]
     )
+    
+    const readIndexHtml = new ReadTextBuildStage(
+      this,
+      `readIndexHtml`,
+      () => [`games`, name, `index.html`],
+      []
+    )
+    this.watch(path.join(`games`, name, `index.html`), readIndexHtml, null)
+    
+    if (!this.oneOff()) {
+      new WriteFileBuildStage(
+        this, 
+        `writeIndexHtml`, 
+        () => [`games`, name, `dist`, `index.html`], 
+        () => readIndexHtml.text, 
+        [createDistDirectory, readIndexHtml]
+      )
+    }
   }
 }
