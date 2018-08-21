@@ -2,7 +2,6 @@ import * as buildStage from "./buildStage"
 import FileListBuildStage from "./fileListBuildStage"
 import GameBuildStage from "./gameBuildStage"
 import WatchableBuildStage from "./watchableBuildStage"
-import JavaScriptParseBuildStage from "./javaScriptParseBuildStage"
 import addGraphsBuildStages from "./addGraphsBuildStages"
 
 export default class BuildProcessBuildStage extends WatchableBuildStage {
@@ -10,15 +9,12 @@ export default class BuildProcessBuildStage extends WatchableBuildStage {
     super(null, `buildProcess`)
     this.isOneOff = isOneOff
 
-    const engine = new JavaScriptParseBuildStage(this, `engine`, [], false, () => [`engine`])
-    this.watchInstanced(`engine`, engine, `read`, null)
-
     const games = new FileListBuildStage(
       this,
       `games`,
       [],
       false,
-      instanceName => new GameBuildStage(games, instanceName, engine),
+      instanceName => new GameBuildStage(games, instanceName),
       () => [`games`]
     )
     this.watchInstanced(`games`, games, null, 0)

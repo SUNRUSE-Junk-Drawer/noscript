@@ -4,8 +4,8 @@ import BuildStage from "./buildStage"
 
 export default {
   archiver: class ArchiverBuildStage extends BuildStage {
-    constructor(parent, javaScriptCompressor, htmlGenerator) {
-      super(parent, `archiver${javaScriptCompressor.slice(0, 1).toUpperCase()}${javaScriptCompressor.slice(1)}`, [htmlGenerator], false)
+    constructor(parent, namePrefix) {
+      super(parent, `${namePrefix}Archiver`, [htmlGenerator], false)
       this.htmlGenerator = htmlGenerator
     }
 
