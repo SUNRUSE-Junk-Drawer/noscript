@@ -1,10 +1,12 @@
-# js13kgames-template
+# noscript
 
-This is a little build pipeline which compiles small applications, intended for
-the [Js13kGames competition](https://js13kgames.com).
+This is a little build pipeline which compiles small applications without any
+runtime JavaScript, intended for esoteric entries to the
+[Js13kGames competition](https://js13kgames.com).
 
 It is a (heavily diverged) fork of
-[Spartan Engine](https://github.com/jameswilddev/spartan-engine).
+[Spartan Engine](https://github.com/jameswilddev/spartan-engine) and
+[js13kgames-template](https://github.com/jameswilddev/js13kgames-template).
 
 # Build pipeline
 
