@@ -19,12 +19,17 @@ export default class WatchableBuildStage extends GroupBuildStage {
     }
   }
 
-  watchInstanced(path, buildStage, childName, depth) {
+  watchInstanced(path, buildStage, childName, depth, extension) {
     if (!this.oneOff()) {
       this.watches.push(chokidar
         .watch(path, { ignoreInitial: true, depth })
         .on(`error`, error => this.criticalStop(error))
         .on(`all`, (event, path) => {
+          if (extension) {
+            if (!path.endsWith(extension)) {
+              return
+            }
+          }
           const pathToStart = [path]
           if (childName) {
             pathToStart.push(childName)

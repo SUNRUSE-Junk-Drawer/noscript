@@ -17,7 +17,7 @@ export default class BuildProcessBuildStage extends WatchableBuildStage {
       instanceName => new GameBuildStage(games, instanceName),
       () => [`games`]
     )
-    this.watchInstanced(`games`, games, null, 0)
+    this.watchInstanced(`games`, games, null, 0, null)
 
     addGraphsBuildStages(this, games)
 
